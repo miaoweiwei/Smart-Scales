@@ -1,0 +1,12 @@
+apple
+banana
+carrot
+cucumber
+eggplant
+garlic
+kiwifruit
+maize
+mushroom
+orange
+pineapple
+pitaya

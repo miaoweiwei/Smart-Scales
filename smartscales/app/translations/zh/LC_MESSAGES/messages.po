@@ -1,0 +1,149 @@
+# Chinese translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-07-08 03:24+0800\n"
+"PO-Revision-Date: 2019-07-03 10:11+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: app/routes.py:46 app/templates/base.html:50
+msgid "Shopping Cart"
+msgstr "购物车"
+
+#: app/routes.py:62
+msgid "Payment"
+msgstr "付款"
+
+#: app/routes.py:74
+msgid "The fruit I bought"
+msgstr "我买到的水果"
+
+#: app/templates/404.html:4
+msgid "File Not Found"
+msgstr "找不到文件"
+
+#: app/templates/404.html:5 app/templates/500.html:6
+msgid "Back"
+msgstr "返回首页"
+
+#: app/templates/500.html:4
+msgid "An unexpected error has occurred"
+msgstr "发生意外错误"
+
+#: app/templates/500.html:5
+msgid "The administrator has been notified. Sorry for the inconvenience!"
+msgstr "管理员已收到通知。 抱歉给你带来不便！"
+
+#: app/templates/base.html:20 app/templates/base.html:22
+#: app/templates/base.html:42 app/templates/index.html:10
+msgid "Fruit Supermarket"
+msgstr "水果超市"
+
+#: app/templates/base.html:32
+msgid "Toggle navigation"
+msgstr "切换导航"
+
+#: app/templates/base.html:51
+msgid "Unpaid Order"
+msgstr "未付款"
+
+#: app/templates/base.html:52
+msgid "Paid Order"
+msgstr "已付款"
+
+#: app/templates/cart.html:5
+msgid "Shopping cart"
+msgstr "购物车"
+
+#: app/templates/cart.html:8 app/templates/cart.html:27
+#: app/templates/paidorder.html:8 app/templates/pay.html:8
+msgid "Icon"
+msgstr "图标"
+
+#: app/templates/cart.html:9 app/templates/cart.html:28
+#: app/templates/paidorder.html:9 app/templates/pay.html:9
+msgid "Name"
+msgstr "名称"
+
+#: app/templates/cart.html:10 app/templates/cart.html:29
+#: app/templates/paidorder.html:10 app/templates/pay.html:10
+msgid "Describe"
+msgstr "描述"
+
+#: app/templates/cart.html:11 app/templates/cart.html:30
+#: app/templates/paidorder.html:11 app/templates/pay.html:11
+msgid "Unit Price"
+msgstr "单价"
+
+#: app/templates/cart.html:12 app/templates/cart.html:31
+#: app/templates/paidorder.html:12 app/templates/pay.html:12
+msgid "Net Weight"
+msgstr "净重"
+
+#: app/templates/cart.html:13 app/templates/paidorder.html:13
+#: app/templates/pay.html:13
+msgid "Subtotal"
+msgstr "小计"
+
+#: app/templates/cart.html:21
+msgid "Newly added fruit"
+msgstr "新增水果"
+
+#: app/templates/cart.html:23
+msgid "Take out the fruit"
+msgstr "取出水果"
+
+#: app/templates/cart.html:32
+msgid "Error Correction"
+msgstr "纠错"
+
+#: app/templates/cart.html:45 app/templates/pay.html:22
+#, python-format
+msgid "%(count)d pieces in total"
+msgstr "共%(count)d件"
+
+#: app/templates/cart.html:47 app/templates/pay.html:23
+#, python-format
+msgid "Total %(count)s yuan"
+msgstr "共%(count)s元"
+
+#: app/templates/cart.html:48
+msgid "Submit Orders"
+msgstr "提交订单"
+
+#: app/templates/cart.html:53
+msgid "There is nothing in the shopping cart."
+msgstr "购物车里空无一物！"
+
+#: app/templates/paidorder.html:5 app/templates/pay.html:5
+msgid "Pending payment"
+msgstr "待付款"
+
+#: app/templates/paidorder.html:20
+msgid "Please take away your goods and be careful not to omit them!"
+msgstr "请带走您的水果，不要遗漏它们！"
+
+#: app/templates/paidorder.html:22
+msgid "You haven't bought fruit yet."
+msgstr "你还没有购买水果。"
+
+#: app/templates/pay.html:27
+msgid "You don't have any orders to pay."
+msgstr "您没有任何订单需要支付。"
+
+#: app/templates/pay.html:33
+msgid "Please use Alipay to scan QR code to pay"
+msgstr "请使用支付宝扫描二维码支付。"
+

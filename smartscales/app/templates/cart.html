@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block app_content %}
+    {% if fruit_list is not none and fruit_list | length > 0 %}
+
+        <h3 class="table_title">{{ _('Shopping cart') }}</h3>
+        <table class="table table-hover">
+            <tr>{# 购物车里的水果表头 #}
+                <th class="icon">{{ _('Icon') }}</th>
+                <th class="text">{{ _('Name') }}</th>
+                <th class="text">{{ _('Describe') }}</th>
+                <th class="text">{{ _('Unit Price') }}</th>
+                <th class="text">{{ _('Net Weight') }}</th>
+                <th class="text">{{ _('Subtotal') }}</th>
+            </tr>
+            <tbody id="old_fruit_list_id">
+            {% include '_fruit.html' %}{# 显示购物车里的水果列表 #}
+            </tbody>
+        </table>
+        {% if newfruits is not none and newfruits | length > 0 %}
+            {% if newfruits[0].get_fruit_netweight()>0 %}
+                <h3 class="table_title">{{ _('Newly added fruit') }}</h3>
+            {% else %}
+                <h3 class="table_title">{{ _('Take out the fruit') }}</h3>
+            {% endif %}
+            <table class="table table-hover">
+                <tr>{# 新增的水果表头 #}
+                    <th class="icon">{{ _('Icon') }}</th>
+                    <th class="text">{{ _('Name') }}</th>
+                    <th class="text">{{ _('Describe') }}</th>
+                    <th class="text">{{ _('Unit Price') }}</th>
+                    <th class="text">{{ _('Net Weight') }}</th>
+                    <th class="text">{{ _('Error Correction') }}</th>
+                </tr>
+                <tbody id="new_add_fruit_list_id">{# 显示新增的水果 #}
+                {% include '_newfruit.html' %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <div class="container">
+            {#            <ul class="nav navbar-nav navbar-right">#}
+            <ul class="nav navbar-right navbar-default navbar-nav">
+                {#            <ul class="nav navbar-nav navbar-right">#}
+                <li>
+                    <a>{{ _('%(count)d pieces in total',count=fruit_list.__len__()) }}</a>
+                </li>
+                <li><a>{{ _('Total %(count)s yuan',count=total) }}</a></li>
+                <li><a href="{{ url_for('pay') }}">{{ _('Submit Orders') }}</a></li>
+                {#            <button class="col-8 input-group ml-2 btn btn-lg btn-primary" id="send_button">发送</button>#}
+            </ul>
+        </div>
+    {% else %}
+        <h2 class="warning">{{ _('There is nothing in the shopping cart.') }}</h2>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %} {# js块 #}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script>
+        var apiadder = "http://127.0.0.1:5000/";
+        var getsettlementapi = apiadder + "settlement";
+
+        var socket = io('/')
+        $(function () {
+            send();
+            get();
+        })
+
+        function send() {
+            //点击发送按钮
+            $('#send_button').click(function () {
+                socket.emit('update_cart', 1);
+            })
+        }
+
+        function get() {
+            socket.on('update_cart', function (data) {
+                /*alert(data);
+                {lert(data.message_html);
+                $('#message_container').append(data.message_html);*/
+                window.location.reload();
+                scrollToEnd();
+            })
+        }
+
+        function scrollToEnd() {//滚动到底部
+            var h = $(document).height() - $(window).height();
+            $(document).scrollTop(h);
+        }
+
+        function settlement() {
+            try {
+                let url = getsettlementapi;
+                $.getJSON({
+                    url: url,
+                    data: {},
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    fail: function () {
+                        alert("请求失败！");
+                    }
+                });
+            } catch (e) {
+                alert(e);
+            }
+        }
+    </script>
+{% endblock %}

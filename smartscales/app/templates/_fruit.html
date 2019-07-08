@@ -1,0 +1,28 @@
+{#_前缀只是一个命名约定，可以帮助我识别哪些模板文件是子模板#}
+{% for fruit in fruit_list %}
+    <tr>
+        <td>
+            {# 设置图标为圆形 #}
+            <div class="td_div_icon">
+                <img src="{{ fruit.get_fruit_icon() }}"/>
+            </div>
+        </td>
+        <td>
+            {{ fruit.get_fruit_name() }}
+        </td>
+        <td>
+            {% if fruit.get_fruit_describe() %}
+                {{ fruit.get_fruit_describe() }}
+            {% endif %}
+        </td>
+        <td>
+            ¥{{ fruit.get_fruit_unitprice() }}/kg
+        </td>
+        <td>
+            {{ fruit.get_fruit_netweight() }}kg
+        </td>
+        <td>
+            ¥{{ fruit.get_subtotal() }}
+        </td>
+    </tr>
+{% endfor %}
