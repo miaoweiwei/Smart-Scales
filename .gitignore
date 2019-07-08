@@ -2,3 +2,4 @@
 /smartscales/.idea
 /smartscales/__pycache__
 /smartscales/app/algorithm/model_weight/new_trained_weights_final.h5
+__pycache__
