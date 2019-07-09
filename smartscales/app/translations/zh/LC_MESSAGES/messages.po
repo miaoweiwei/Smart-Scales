@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-08 03:24+0800\n"
+"POT-Creation-Date: 2019-07-09 16:42+0800\n"
 "PO-Revision-Date: 2019-07-03 10:11+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -28,7 +28,7 @@ msgstr "付款"
 
 #: app/routes.py:74
 msgid "The fruit I bought"
-msgstr "我买到的水果"
+msgstr "我买到的商品"
 
 #: app/templates/404.html:4
 msgid "File Not Found"
@@ -49,7 +49,7 @@ msgstr "管理员已收到通知。 抱歉给你带来不便！"
 #: app/templates/base.html:20 app/templates/base.html:22
 #: app/templates/base.html:42 app/templates/index.html:10
 msgid "Fruit Supermarket"
-msgstr "水果超市"
+msgstr "果蔬超市"
 
 #: app/templates/base.html:32
 msgid "Toggle navigation"
@@ -99,11 +99,11 @@ msgstr "小计"
 
 #: app/templates/cart.html:21
 msgid "Newly added fruit"
-msgstr "新增水果"
+msgstr "新增加商品"
 
 #: app/templates/cart.html:23
 msgid "Take out the fruit"
-msgstr "取出水果"
+msgstr "取出商品"
 
 #: app/templates/cart.html:32
 msgid "Error Correction"
@@ -133,11 +133,11 @@ msgstr "待付款"
 
 #: app/templates/paidorder.html:20
 msgid "Please take away your goods and be careful not to omit them!"
-msgstr "请带走您的水果，不要遗漏它们！"
+msgstr "请带走您的商品，不要遗漏它们！"
 
 #: app/templates/paidorder.html:22
 msgid "You haven't bought fruit yet."
-msgstr "你还没有购买水果。"
+msgstr "你还没有购买商品。"
 
 #: app/templates/pay.html:27
 msgid "You don't have any orders to pay."
