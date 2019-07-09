@@ -10,7 +10,7 @@ current_list = []
 
 # 定义一个函数来初始化商品
 def init_repository():
-    db = pymysql.connect("localhost", "root", "123456", "fruitshop")
+    db = pymysql.connect("localhost", "root", "1234", "fruitshop")
     cursor = db.cursor()
     sql = "select * from fruit_table"
     try:
@@ -105,9 +105,7 @@ def show_list():
 
 
 def make_web_list():
-    # the_list = [[] for i in range(10)]
     the_list = []
-    # print(shop_list)
     sum = 0.0
     for i, item in enumerate(shop_list):
         id = i + 1
@@ -115,7 +113,7 @@ def make_web_list():
         name = repository[code][1]
         price = repository[code][2]
         price = round(price, 2)
-        number = float(item[1]) / 10
+        number = float(item[1])
         number = round(number, 3)
         amount = price * number
         amount = round(amount, 2)
@@ -131,12 +129,15 @@ def make_web_new():
         print('no new fruits')
         return []
     else:
+        if current_list[0][0] == '1000':
+            the_list = ['1000', 0, current_list[0][1], 0]
+            return the_list
         code = current_list[0][0]
         name = repository[code][1]
         price = repository[code][2]
         price = round(price, 2)
-        weight = float(current_list[0][1]) / 10
-        weight = round(weight, 2)
+        weight = float(current_list[0][1])
+        weight = round(weight, 3)
         amount = round(price * weight, 2)
         the_list = [name, price, weight, amount]
         return the_list
@@ -173,6 +174,18 @@ def add_fruit(id, weight):
     # print(shop_list)
 
 
+def add_empty(weight):
+    if len(current_list) != 0:
+        current_list.pop(0)
+    current_list.append(['1000', weight])
+
+
+def remove_empty(weight):
+    if len(current_list) != 0:
+        current_list.pop(0)
+    current_list.append(['1000', weight])
+
+
 def edit_weight(id, i, weight):
     oldweight = float(shop_list[i][1])
     shop_list[i][1] = oldweight + float(weight)
@@ -187,25 +200,29 @@ def remove_fruit(id, weight):
     changed = 0
     # print('shoplist:', shop_list)
     for i in range(len(shop_list)):
-        # print('i:', i)
-        # print('shop_list[i]', shop_list[i])
         if shop_list[i][0] == id:
+            changed = 1
             shop_list[i][1] = float(shop_list[i][1]) + float(weight)
+            if len(current_list) != 0:
+                current_list.pop(0)
+            current_list.append([id, weight])
             if shop_list[i][1] < 0.02:
                 del shop_list[i]
-                if len(current_list) != 0:
-                    current_list.pop(0)
-                current_list.append([id, weight])
                 break
 
-            changed = 1
     if changed == 0:
         print("remove error")
 
 
 def edit_kind(id, weight, true_kind_id):
-    remove_fruit(id, -weight)
-    add_fruit(true_kind_id, weight)
+    if id == '1000':
+        if weight > 0:
+            add_fruit(true_kind_id, weight)
+        else:
+            remove_fruit(true_kind_id, weight)
+    else:
+        remove_fruit(id, -weight)
+        add_fruit(true_kind_id, weight)
     if len(current_list) != 0:
         current_list.pop(0)
     current_list.append([true_kind_id, weight])
