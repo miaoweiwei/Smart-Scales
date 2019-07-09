@@ -40,7 +40,7 @@ def cart():
 
     new_fruit_list = []
     if new_cart_list is not None and len(new_cart_list) > 0:
-        fruit = Fruit(new_cart_list[0], new_cart_list[1], new_cart_list[3])
+        fruit = Fruit(new_cart_list[0], new_cart_list[1], new_cart_list[2])
         new_fruit_list.append(fruit)
 
     return render_template("cart.html", title=_('Shopping Cart'),
@@ -88,11 +88,11 @@ def get_frame():
     old_file_name = upload_file.filename
     image_count = old_file_name.split('_')[-1].split('.')[0]  # 获取图像的编号
     dirname = old_file_name.split('_')[1] + old_file_name.split('_')[2]  # 取文件的时间当做文件夹的名字
-    dirpath = os.path.join(mydir + dirname)
+    dirpath = os.path.join(mydir, dirname)
     folder = os.path.exists(dirpath)
     if not folder:
         os.makedirs(dirpath)
-    file_path = os.path.join(mydir + dirname + '/' + old_file_name)
+    file_path = os.path.join(mydir, dirname, old_file_name)
     print('weight:', weight)
     print(image_count)
 
@@ -106,7 +106,7 @@ def get_frame():
         else:
             image_A_name = 'image_' + old_file_name.split('_')[1] + '_' + old_file_name.split('_')[2] + '_' \
                            + str(int(image_count) - 1).zfill(3) + '.jpg'
-            image_A_path = os.path.join(mydir + dirname + '/' + image_A_name)
+            image_A_path = os.path.join(mydir, dirname, image_A_name)
             image_B_path = file_path
         cropped_B_path, cropped_A_path = get_difference(image_A_path, image_B_path, al.CROPPED_PATH)
         image_B = Image.open(cropped_B_path)
