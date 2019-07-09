@@ -248,6 +248,28 @@ def edit():
     item[1] = number
 
 
+def store_order(orderlist):
+    id = orderlist[0]
+    data = orderlist[1]
+    status = orderlist[2]
+    price = orderlist[3]
+    weight = orderlist[4]
+    info = orderlist[5]
+    db = pymysql.connect("localhost", "root", "1234", "fruitshop")
+    cursor = db.cursor()
+    sql = "insert into order_info(orderid, orderdate, status, price, weights, info) values (%s, %s, %s, %s, %s, %s)"
+    try:
+        # 执行SQL语句
+        cursor.execute(sql, (id, data, status, price, weight, info))
+        # 获取所有记录列表
+        # results = cursor.fetchall()
+        db.commit()  # 提交数据
+        cursor.close()
+    except:
+        print("Error: unable to store data")
+    db.close()
+
+
 # 删除购买的商品明细项，就是删除代表用户购物清单的list列表的一个元素。
 def delete():
     id = input("请输入要删除的购物明细项的ID: ")
@@ -280,8 +302,10 @@ cmd_dict = {'a': add, 'e': edit, 'd': delete, 'p': payment, 's': show_goods}
 
 # 显示清单和操作命令提示
 if __name__ == '__main__':
-    init_repository()
-    show_goods()
-    while True:
-        show_list()
-        # show_command()
+    # init_repository()
+    # show_goods()
+    # while True:
+    #     show_list()
+    #     # show_command()
+    list = ['10001', '20190710', 'success', '58.88', '12.3', 'apple:3.4']
+    # store_order(list)
