@@ -9,10 +9,10 @@
 """
 import os
 from PIL import Image
-from flask import render_template, request
+from flask import render_template, request, flash
 from flask_babel import _
-from app import al, yolo, graph
-from app.algorithm import dataprocessing
+from app import al, yolo
+from app.algorithm import graph, dataprocessing
 from app.algorithm.image_detect_func import get_difference
 from app.fruit import Fruit
 from app import app, socketioutils, fruit_name_dic
@@ -39,15 +39,30 @@ def cart():
             fruit_list.append(fruit)
 
     new_fruit_list = []
+    # if len(new_cart_list) > 0:
+    #     flash("ghuigytuigyjyjgfjy")
     if new_cart_list is not None and len(new_cart_list) > 0:
-        fruit = Fruit(new_cart_list[0], new_cart_list[1], new_cart_list[2])
-        new_fruit_list.append(fruit)
+        for i in range(len(new_cart_list)):
+            fruit = Fruit(new_cart_list[i][0], new_cart_list[i][1], new_cart_list[i][2])
+            new_fruit_list.append(fruit)
+    if len(new_cart_list) >= 2:
+        if new_cart_list[0][2] > 0:
+            flash("您可能一次性放入了多个商品，很抱歉无法仔细识别出每件商品的重量，请将刚刚放入的多种商品取出，依次放入，如果您确认只放入了一种商品，请进行纠正，")
+        else:
+            flash("您或许一次性取走了多个商品，很抱歉无法仔细识别出每件商品的重量，如果您确认只取走了一种商品，请进行纠正，")
+    elif len(new_cart_list) == 1:
+        if new_cart_list[0][2] > 0 and new_cart_list[0][0] != '1000':
+            fruit_name = new_cart_list[0][0]
+            flash("您新添加了%s" % fruit_name_dic[fruit_name])
+        if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
+            fruit_name = new_cart_list[0][0]
+            flash("您取走了%s" % fruit_name_dic[fruit_name])
 
     return render_template("cart.html", title=_('Shopping Cart'),
                            fruit_list=fruit_list,  # 水果列表
                            newfruits=new_fruit_list,  # 新增水果的列表
                            total=total,  # 总价计算
-                           fruitnames=fruit_name_dic.values())
+                           fruitnames=fruit_name_dic.values(), )
 
 
 @app.route("/pay", methods=['GET', 'POST'])
@@ -119,32 +134,59 @@ def get_frame():
             if weight > 0.05:
                 r_image, result = yolo.detect_image(image_B)
                 if len(result) == 0:
+                    dataprocessing.add_empty(weight)
                     return "can not recognize"
                 name = result[0]
                 namelist = result
                 id = dataprocessing.name_id[name]
                 idlist = [dataprocessing.name_id[i] for i in namelist]
+                idlist = list(set(idlist))
+                print('idlist:', idlist)
                 print('adding:', id, name)
-                dataprocessing.add_fruit(id, weight)
+                dataprocessing.add_list(idlist, weight)
+                # dataprocessing.add_fruit(id, weight)
                 print('add successfully')
 
             elif weight < -0.05:
                 r_image, result = yolo.detect_image(image_A)
                 if len(result) == 0:
+                    dataprocessing.remove_empty(weight)
                     return "can not recognize"
                 name = result[0]
                 namelist = result
                 id = dataprocessing.name_id[name]
                 idlist = [dataprocessing.name_id[i] for i in namelist]
+                idlist = list(set(idlist))
                 print('removing:', id, name)
-                dataprocessing.remove_fruit(id, weight)
+                dataprocessing.remove_list(idlist, weight)
+                # dataprocessing.remove_fruit(id, weight)
                 print('remove successfully')
             dataprocessing.show_list()
             print(dataprocessing.getshoplist())
             print('current_list:', dataprocessing.current_list)
         print('make_web_list', dataprocessing.make_web_list())
         print('make_web_new', dataprocessing.make_web_new())
-        socketioutils.update_cart()
+        socketioutils.report(1)
         return 'success'
     else:
         return 'failed'
+
+
+@app.route("/change", methods=["POST"])
+def change_fruit():
+    target_fruit_name = "orange"
+
+    target_fruit_id = dataprocessing.name_id[target_fruit_name]
+    weight = 1.5
+    current_fruit = dataprocessing.current_list
+    if len(current_fruit) == 0:
+        return 'no new fruits'
+    else:
+        id = current_fruit[0][0]
+        name = dataprocessing.repository[id][1]
+    dataprocessing.edit_kind(id, weight, target_fruit_id)
+    return 'success'
+
+@app.route("/clear", methods=["POST"])
+def clear_fruits():
+    dataprocessing.clear_shoplist()
