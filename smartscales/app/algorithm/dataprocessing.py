@@ -216,7 +216,11 @@ def remove_fruit(id, weight):
         print("remove error")
 
 
-def edit_kind(id, weight, true_kind_id):
+def edit_kind(id, true_kind_id):
+    if len(current_list) > 0:
+        weight = current_list[0][1]
+    else:
+        weight = 0
     if id == '1000':
         if weight > 0:
             add_fruit(true_kind_id, weight)
@@ -225,6 +229,11 @@ def edit_kind(id, weight, true_kind_id):
     else:
         remove_fruit(id, -weight)
         add_fruit(true_kind_id, weight)
+    if len(current_list) != 0:
+        for i in range(len(current_list)):
+            if id == current_list[i][0]:
+                current_list[i] = [true_kind_id, weight]
+
     # if len(current_list) != 0:
     #     current_list.pop(0)
     # current_list.append([true_kind_id, weight])
