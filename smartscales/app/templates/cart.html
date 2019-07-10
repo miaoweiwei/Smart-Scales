@@ -59,22 +59,21 @@
 
         var socket = io('/')
         $(function () {
-            send();
             get();
         })
 
-        function send() {
-            //点击发送按钮
-            $('#send_button').click(function () {
-                socket.emit('update_cart', 1);
-            })
+        function send(content) {
+            socket.emit('update_cart', content);
+        }
+
+        function onChange(select) {
+            changeData = {"name": select.id, "changeName": select.value};
+            send(changeData);
         }
 
         function get() {
             socket.on('update_cart', function (data) {
-                /*alert(data);
-                {lert(data.message_html);
-                $('#message_container').append(data.message_html);*/
+                /*alert(data);*/
                 window.location.reload();
                 scrollToEnd();
             })

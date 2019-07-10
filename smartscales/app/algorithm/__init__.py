@@ -7,12 +7,12 @@
 @Software: PyCharm
 @Desc    : YOLO算法的初始化
 """
-import tensorflow as tf
 import datetime
 from os.path import join, dirname, realpath
 from PIL import Image
 from app.algorithm.yolo import YOLO
 from app.algorithm import dataprocessing
+import tensorflow as tf
 
 ALGORITHM_PATH = dirname(realpath(__file__))  # 算法文件夹的路径
 DATA_PATH = join(ALGORITHM_PATH, 'data')
@@ -59,6 +59,7 @@ def algorithm_init():
     }
     graph = tf.get_default_graph()  # 功能：获取当前默认计算图。
     yolo = YOLO(**new_yolo_test_args)  # 初始化算法
+    return yolo, graph
     return yolo, graph
 
 

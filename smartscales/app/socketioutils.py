@@ -7,7 +7,8 @@
 @Software: PyCharm
 @Desc    : 用于服务器和前端进行通信，双向全双工，websocket
 """
-from app import socketio, app
+from app import socketio, app, fruit_name_dic
+from app.algorithm import dataprocessing
 from flask_socketio import emit
 
 
@@ -15,6 +16,11 @@ from flask_socketio import emit
 def update_cart(content):
     print(content)
 
+    new_dict = {v: k for k, v in fruit_name_dic.items()}
+
+    id0 = dataprocessing.name_id[content["name"]]
+    id1 = dataprocessing.name_id[new_dict[content["changeName"]]]
+    dataprocessing.edit_kind(id0, id1)
     # 发送消息到前端 参数一表示这个通道的名字，参数二是发送的内容，参数broadcast表示是否广播是所有的前端都能收到信息
     # emit('new_message', {'message_html': render_template('message.html', message=message)}, broadcast=True)
     # emit('update_cart', content, broadcast=True)

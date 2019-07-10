@@ -11,6 +11,7 @@ import os
 from PIL import Image
 from flask import render_template, request, flash
 from flask_babel import _
+from flask_babel import lazy_gettext as _l  # 这个新函数将文本包装在一个特殊的对象中，这个对象会在稍后的字符串使用时触发翻译。
 from app import al, yolo, graph
 from app.algorithm import dataprocessing
 from app.algorithm.image_detect_func import get_difference
@@ -32,35 +33,36 @@ def cart():
     """购物车"""
     cart_list, total = dataprocessing.make_web_list()
     new_cart_list = dataprocessing.make_web_new()
+    # cart_list = [["apple", 23.12, 12]]
+    # total = 23.12 * 12
+    # new_cart_list = [["apple", 23.12, 12]]
+
     fruit_list = []
+
     if len(cart_list) > 0:
         for i in range(len(cart_list)):
             fruit = Fruit(cart_list[i][0], cart_list[i][1], cart_list[i][2])
             fruit_list.append(fruit)
 
     new_fruit_list = []
-    # if len(new_cart_list) > 0:
-    #     flash("ghuigytuigyjyjgfjy")
     if new_cart_list is not None and len(new_cart_list) > 0:
         for i in range(len(new_cart_list)):
             fruit = Fruit(new_cart_list[i][0], new_cart_list[i][1], new_cart_list[i][2])
             new_fruit_list.append(fruit)
     if len(new_cart_list) >= 2:
         if new_cart_list[0][2] > 0:
-            flash("您可能一次性放入了多个商品，很抱歉无法仔细识别出每件商品的重量，请将刚刚放入的多种商品取出，依次放入，如果您确认只放入了一种商品，请进行纠正。")
+            flash(_(
+                "You may have placed a variety of items at once. Sorry, you can't carefully identify the weight of each item. Please take out the various items you just placed and put them in order. If you confirm that only one item is placed, please Make corrections."))
         else:
-            flash("您或许一次性取走了多个商品，很抱歉无法仔细识别出每件商品的重量，如果您确认只取走了一种商品，请进行纠正。")
+            flash(_(
+                "You may have taken a variety of items at once, and I am sorry that you cannot carefully identify the weight of each item. If you confirm that only one item has been removed, please correct it."))
     elif len(new_cart_list) == 1:
         if new_cart_list[0][2] > 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
-            flash("您新添加了%s" % fruit_name_dic[fruit_name])
+            flash(_l("You added new%s" % fruit_name_dic[fruit_name]))
         if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
-            flash("您取走了%s" % fruit_name_dic[fruit_name])
-    # elif len(new_cart_list) == 0:
-    #     flash("很抱歉未能识别出来，请在新增/取出商品处进行纠正。")
-    if len(new_cart_list) == 0 and len(cart_list) == 0:
-        flash("当前购物车无任何商品，去挑一些吧")
+            flash(_l("You took the %s away" % fruit_name_dic[fruit_name]))
 
     return render_template("cart.html", title=_('Shopping Cart'),
                            fruit_list=fruit_list,  # 水果列表
@@ -179,7 +181,6 @@ def get_frame():
 @app.route("/change", methods=["POST"])
 def change_fruit():
     target_fruit_name = "orange"
-
     target_fruit_id = dataprocessing.name_id[target_fruit_name]
     weight = 1.5
     current_fruit = dataprocessing.current_list

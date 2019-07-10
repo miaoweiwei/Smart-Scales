@@ -13643,7 +13643,7 @@ $.fn.search = function(parameters) {
               ;
               if( $.isFunction(settings.onSelect) ) {
                 if(settings.onSelect.call(element, result, results) === false) {
-                  module.debug('Custom onSelect callback cancelled default select action');
+                  module.debug('Custom onChange callback cancelled default select action');
                   disabledBubbled = true;
                   return;
                 }
