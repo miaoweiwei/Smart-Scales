@@ -58,16 +58,16 @@
 
 {% block content %}
     <div class="container">
+        {# 页面 #}
+        {% block app_content %}{% endblock %}
         {# get_flashed_messages()函数返回用flash()注册过的消息列表 #}
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                    <div class="alert alert-info" role="alert" style="font-size: 30px">{{ message }}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        {# 页面 #}
-        {% block app_content %}{% endblock %}
     </div>
 {% endblock %}
 

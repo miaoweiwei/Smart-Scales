@@ -24,7 +24,7 @@ def update_cart(content):
     # 发送消息到前端 参数一表示这个通道的名字，参数二是发送的内容，参数broadcast表示是否广播是所有的前端都能收到信息
     # emit('new_message', {'message_html': render_template('message.html', message=message)}, broadcast=True)
     # emit('update_cart', content, broadcast=True)
-    emit('update_cart', content, broadcast=False)
+    emit('update_cart', "1", broadcast=False)
 
 
 # 用于服务端主动向前端发送信息

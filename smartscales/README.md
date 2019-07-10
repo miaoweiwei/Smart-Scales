@@ -23,5 +23,5 @@
 </code>
 
 flask translate init LANG用于添加新语言  
-flask translate update用于更新所有语言存储库  
-flask translate compile用于编译所有语言存储库  
+flask translate update 用于更新所有语言存储库  
+flask translate complete 用于编译所有语言存储库  

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-10 15:37+0800\n"
+"POT-Creation-Date: 2019-07-10 20:41+0800\n"
 "PO-Revision-Date: 2019-07-03 10:11+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -35,13 +35,13 @@ msgstr "您或许一次性取走了多个商品，很抱歉无法仔细识别出
 
 #: app/routes.py:62
 #, python-format
-msgid "You added new%s"
-msgstr "您新加入了%s"
+msgid "You added new %(fruit_name)s"
+msgstr "您新加入了%(fruit_name)s"
 
 #: app/routes.py:65
 #, python-format
-msgid "You took the %s away"
-msgstr "您取出了%s"
+msgid "You took the %(fruit_name)s away"
+msgstr "您拿走了%(fruit_name)s"
 
 #: app/routes.py:67 app/templates/base.html:50
 msgid "Shopping Cart"
@@ -102,11 +102,6 @@ msgstr "图标"
 msgid "Name"
 msgstr "名称"
 
-#: app/templates/cart.html:10 app/templates/cart.html:29
-#: app/templates/paidorder.html:10 app/templates/pay.html:10
-msgid "Describe"
-msgstr "描述"
-
 #: app/templates/cart.html:11 app/templates/cart.html:30
 #: app/templates/paidorder.html:11 app/templates/pay.html:11
 msgid "Unit Price"
@@ -134,27 +129,36 @@ msgstr "取出商品"
 msgid "Error Correction"
 msgstr "纠错"
 
-#: app/templates/cart.html:42 app/templates/pay.html:22
+#: app/templates/cart.html:40 app/templates/pay.html:22
 #, python-format
 msgid "%(count)d pieces in total"
 msgstr "共%(count)d件"
 
-#: app/templates/cart.html:43 app/templates/pay.html:23
+#: app/templates/cart.html:41 app/templates/pay.html:23
 #, python-format
 msgid "Total %(count)s yuan"
 msgstr "共%(count)s元"
 
-#: app/templates/cart.html:45
+#: app/templates/cart.html:43
 msgid "Submit Orders"
 msgstr "提交订单"
 
-#: app/templates/cart.html:49
+#: app/templates/cart.html:48
 msgid "There is nothing in the shopping cart."
 msgstr "购物车里空无一物！"
+
+#: app/templates/cart.html:120
+#, python-format
+msgid "Return to the home page after %(time)s seconds"
+msgstr "%(time)s秒后返回首页"
 
 #: app/templates/paidorder.html:5 app/templates/pay.html:5
 msgid "Pending payment"
 msgstr "待付款"
+
+#: app/templates/paidorder.html:10 app/templates/pay.html:10
+msgid "Describe"
+msgstr "描述"
 
 #: app/templates/paidorder.html:20
 msgid "Please take away your goods and be careful not to omit them!"

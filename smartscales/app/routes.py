@@ -59,10 +59,10 @@ def cart():
     elif len(new_cart_list) == 1:
         if new_cart_list[0][2] > 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
-            flash(_l("You added new%s" % fruit_name_dic[fruit_name]))
+            flash(_l("You added new %(fruit_name)s", fruit_name=fruit_name_dic[fruit_name]))
         if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
-            flash(_l("You took the %s away" % fruit_name_dic[fruit_name]))
+            flash(_l("You took the %(fruit_name)s away", fruit_name=fruit_name_dic[fruit_name]))
 
     return render_template("cart.html", title=_('Shopping Cart'),
                            fruit_list=fruit_list,  # 水果列表
