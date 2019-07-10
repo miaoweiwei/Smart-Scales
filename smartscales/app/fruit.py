@@ -11,8 +11,6 @@ from app import fruit_name_dic
 
 
 class Fruit(object):
-    unit_price_dir = {"apple": 2.56, "orange": 3.5, "banana": 6.56, "watermelon": 1.23, "grape": 12.35}  # 假的单价
-
     def __init__(self, name, unitprice, netweight, describe=None):
         self.name = name
         self.unitprice = unitprice

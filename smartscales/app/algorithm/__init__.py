@@ -28,8 +28,6 @@ CROPPED_PATH = join(DATA_PATH, 'cropped')
 BACK_GROUND = join(DATA_PATH, 'background/background.jpg')
 '''背景'''
 
-graph = tf.get_default_graph()  # 功能：获取当前默认计算图。
-
 
 def algorithm_init():
     yolo_test_args = {
@@ -59,9 +57,9 @@ def algorithm_init():
         "model_image_size": (416, 416),
         "gpu_num": 0,
     }
-
+    graph = tf.get_default_graph()  # 功能：获取当前默认计算图。
     yolo = YOLO(**new_yolo_test_args)  # 初始化算法
-    return yolo
+    return yolo, graph
 
 
 if __name__ == '__main__':

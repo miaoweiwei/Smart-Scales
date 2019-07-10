@@ -8,6 +8,7 @@
 @Desc    : 
 """
 import logging
+import os
 from logging.handlers import SMTPHandler
 from logging.handlers import RotatingFileHandler
 from flask_socketio import SocketIO
@@ -17,20 +18,13 @@ from flask_moment import Moment
 from flask_babel import Babel
 from flask_cors import CORS
 from flask_babel import lazy_gettext as _l  # 这个新函数将文本包装在一个特殊的对象中，这个对象会在稍后的字符串使用时触发翻译。
-
 from app.algorithm import dataprocessing
 from config import Config
 from app import algorithm
 
 # # 设置只是用CPU
-# import os
 # os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-
-# 算法初始化
-dataprocessing.init_repository()  # 初始化数据库
-al = algorithm
-yolo = al.algorithm_init()  # 在web项目中使用algorithm时能使用这个，不然会加载多次模型
 
 # web初始化
 app = Flask(__name__)
@@ -41,7 +35,13 @@ moment = Moment(app)  # 日期和时间转换成插件格式化
 babel = Babel(app)  # Flask-Babel正是用于简化翻译工作的
 socketio = SocketIO(app)
 fruit_name_dic = {"apple": "苹果", "banana": "香蕉", "cucumber": "黄瓜", "eggplant": "茄子", "kiwifruit": "奇异果",
-                  "maize": "玉米", "mushroom": "蘑菇", "orange": "橘子", "pineapple": "菠萝", "pitaya": "火龙果"}
+                  "maize": "玉米", "mushroom": "蘑菇", "orange": "橘子", "pineapple": "菠萝", "pitaya": "火龙果",
+                  "unknown": "未知的水果"}
+
+# 算法初始化
+dataprocessing.init_repository()  # 初始化数据库
+al = algorithm
+yolo, graph = al.algorithm_init()  # 在web项目中使用algorithm时能使用这个，不然会加载多次模型
 
 # 日志初始化
 if not app.debug and app.config['MAIL_SEND']:  # 调试的时候不记录日志

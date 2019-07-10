@@ -7,12 +7,20 @@
 @Software: PyCharm
 @Desc    : 表单
 """
+from cgitb import strong
 from flask_wtf import FlaskForm
 from wtforms import SelectField, SubmitField
-from wtforms.validators import Required
+from wtforms.validators import Required, DataRequired
 
 
-class SmFormAdmin(FlaskForm):
-    status = SelectField('按类型查询', validators=[Required()],
-                         choices=[('0', '全部'), ('1', '待审核'), ('2', '认证成功'), ('3', '认证失败')])
-    submit = SubmitField('Submit')
+class ErrorCorrectionForm(FlaskForm):
+    tag = SelectField(
+        label='类别',
+        validators=[DataRequired('请选择标签')],
+        render_kw={
+            'class': 'form-control'
+        },
+        choices=[(1, '情感'), (2, '星座'), (3, '爱情')],
+        defalut=3,
+        coerce=int
+    )

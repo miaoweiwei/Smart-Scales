@@ -11,8 +11,8 @@ import os
 from PIL import Image
 from flask import render_template, request
 from flask_babel import _
-from app import al, yolo
-from app.algorithm import graph, dataprocessing
+from app import al, yolo, graph
+from app.algorithm import dataprocessing
 from app.algorithm.image_detect_func import get_difference
 from app.fruit import Fruit
 from app import app, socketioutils, fruit_name_dic
@@ -47,7 +47,7 @@ def cart():
                            fruit_list=fruit_list,  # 水果列表
                            newfruits=new_fruit_list,  # 新增水果的列表
                            total=total,  # 总价计算
-                           fruitnames=fruit_name_dic.values(), )
+                           fruitnames=fruit_name_dic.values())
 
 
 @app.route("/pay", methods=['GET', 'POST'])
@@ -144,7 +144,7 @@ def get_frame():
             print('current_list:', dataprocessing.current_list)
         print('make_web_list', dataprocessing.make_web_list())
         print('make_web_new', dataprocessing.make_web_new())
-        socketioutils.report(1)
+        socketioutils.update_cart()
         return 'success'
     else:
         return 'failed'

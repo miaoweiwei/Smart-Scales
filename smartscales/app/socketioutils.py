@@ -28,4 +28,8 @@ def report(content):
         # text = input("要发送的信息：")
         # socketio.emit('response')
         socketio.emit('update_cart', content, broadcast=True)
-        socketio.sleep(3)
+
+
+def update_cart():
+    """刷新购物车页面"""
+    report("1")

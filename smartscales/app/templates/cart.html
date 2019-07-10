@@ -38,15 +38,11 @@
         {% endif %}
 
         <div class="container">
-            {#            <ul class="nav navbar-nav navbar-right">#}
-            <ul class="nav navbar-right navbar-default navbar-nav">
-                {#            <ul class="nav navbar-nav navbar-right">#}
-                <li>
-                    <a>{{ _('%(count)d pieces in total',count=fruit_list.__len__()) }}</a>
-                </li>
+            <ul class="nav navbar-default navbar-nav navbar-right">
+                <li><a>{{ _('%(count)d pieces in total',count=fruit_list.__len__()) }}</a></li>
                 <li><a>{{ _('Total %(count)s yuan',count=total) }}</a></li>
-                <li><a href="{{ url_for('pay') }}">{{ _('Submit Orders') }}</a></li>
-                {#            <button class="col-8 input-group ml-2 btn btn-lg btn-primary" id="send_button">发送</button>#}
+                <button type="button" onclick="javascrtpt:window.location.href='{{ url_for("pay") }}';"
+                        class="btn btn-default navbar-btn">{{ _('Submit Orders') }}</button>
             </ul>
         </div>
     {% else %}
