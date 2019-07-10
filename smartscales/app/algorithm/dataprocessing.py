@@ -10,8 +10,7 @@ current_list = []
 
 # 定义一个函数来初始化商品
 def init_repository():
-    # db = pymysql.connect("localhost", "root", "1234", "fruitshop")
-    db = pymysql.connect("localhost", "root", "123456", "fruitshop")
+    db = pymysql.connect("localhost", "root", "1234", "fruitshop")
     cursor = db.cursor()
     sql = "select * from fruit_table"
     try:
@@ -126,6 +125,7 @@ def make_web_list():
 
 
 def make_web_new():
+    the_list = []
     if len(current_list) == 0:
         print('no new fruits')
         return []
@@ -133,14 +133,15 @@ def make_web_new():
         if current_list[0][0] == '1000':
             the_list = ['1000', 0, current_list[0][1], 0]
             return the_list
-        code = current_list[0][0]
-        name = repository[code][1]
-        price = repository[code][2]
-        price = round(price, 2)
-        weight = float(current_list[0][1])
-        weight = round(weight, 3)
-        amount = round(price * weight, 2)
-        the_list = [name, price, weight, amount]
+        for i in range(len(current_list)):
+            code = current_list[i][0]
+            name = repository[code][1]
+            price = repository[code][2]
+            price = round(price, 2)
+            weight = float(current_list[0][1])
+            weight = round(weight, 3)
+            amount = round(price * weight, 2)
+            the_list.append([name, price, weight, amount])
         return the_list
 
 
@@ -169,10 +170,10 @@ def add_fruit(id, weight):
             changed = 1
     if changed == 0:
         shop_list.append([id, weight])
-        if len(current_list) != 0:
-            current_list.pop(0)
-        current_list.append([id, weight])
-    # print(shop_list)
+    #     if len(current_list) != 0:
+    #         current_list.pop(0)
+    #     current_list.append([id, weight])
+    # # print(shop_list)
 
 
 def add_empty(weight):
@@ -192,9 +193,9 @@ def edit_weight(id, i, weight):
     shop_list[i][1] = oldweight + float(weight)
     if shop_list[i][1] < 0.02:
         del shop_list[i]
-    if len(current_list) != 0:
-        current_list.pop(0)
-    current_list.append([id, weight])
+    # if len(current_list) != 0:
+    #     current_list.pop(0)
+    # current_list.append([id, weight])
 
 
 def remove_fruit(id, weight):
@@ -204,9 +205,9 @@ def remove_fruit(id, weight):
         if shop_list[i][0] == id:
             changed = 1
             shop_list[i][1] = float(shop_list[i][1]) + float(weight)
-            if len(current_list) != 0:
-                current_list.pop(0)
-            current_list.append([id, weight])
+            # if len(current_list) != 0:
+            #     current_list.pop(0)
+            # current_list.append([id, weight])
             if shop_list[i][1] < 0.02:
                 del shop_list[i]
                 break
@@ -224,9 +225,9 @@ def edit_kind(id, weight, true_kind_id):
     else:
         remove_fruit(id, -weight)
         add_fruit(true_kind_id, weight)
-    if len(current_list) != 0:
-        current_list.pop(0)
-    current_list.append([true_kind_id, weight])
+    # if len(current_list) != 0:
+    #     current_list.pop(0)
+    # current_list.append([true_kind_id, weight])
 
 
 def clear_shoplist():
@@ -279,16 +280,6 @@ def delete():
     del shop_list[index]
 
 
-def payment():
-    # 先打印清单
-    show_list()
-    print('\n' * 3)
-    print("欢迎下次光临")
-    # 退出程序
-    import os
-    os._exit(0)
-
-
 def getshoplist():
     the_list = []
     for i, item in enumerate(shop_list):
@@ -299,7 +290,25 @@ def getshoplist():
     return the_list
 
 
-cmd_dict = {'a': add, 'e': edit, 'd': delete, 'p': payment, 's': show_goods}
+def add_list(the_list, weight):
+    per_weight = round(float(weight) / len(the_list), 3)
+    while len(current_list) != 0:
+        current_list.pop(0)
+    for i in range(len(the_list)):
+        add_fruit(the_list[i], per_weight)
+        current_list.append([the_list[i], per_weight])
+
+
+def remove_list(the_list, weight):
+    per_weight = round(float(weight) / len(the_list), 3)
+    while len(current_list) != 0:
+        current_list.pop(0)
+    for i in range(len(the_list)):
+        remove_fruit(the_list[i], per_weight)
+        current_list.append([the_list[i], per_weight])
+
+
+# cmd_dict = {'a': add, 'e': edit, 'd': delete, 'p': payment, 's': show_goods}
 
 # 显示清单和操作命令提示
 if __name__ == '__main__':
