@@ -11,8 +11,8 @@ import os
 from PIL import Image
 from flask import render_template, request, flash
 from flask_babel import _
-from app import al, yolo
-from app.algorithm import graph, dataprocessing
+from app import al, yolo, graph
+from app.algorithm import dataprocessing
 from app.algorithm.image_detect_func import get_difference
 from app.fruit import Fruit
 from app import app, socketioutils, fruit_name_dic
@@ -47,9 +47,9 @@ def cart():
             new_fruit_list.append(fruit)
     if len(new_cart_list) >= 2:
         if new_cart_list[0][2] > 0:
-            flash("您可能一次性放入了多个商品，很抱歉无法仔细识别出每件商品的重量，请将刚刚放入的多种商品取出，依次放入，如果您确认只放入了一种商品，请进行纠正，")
+            flash("您可能一次性放入了多个商品，很抱歉无法仔细识别出每件商品的重量，请将刚刚放入的多种商品取出，依次放入，如果您确认只放入了一种商品，请进行纠正。")
         else:
-            flash("您或许一次性取走了多个商品，很抱歉无法仔细识别出每件商品的重量，如果您确认只取走了一种商品，请进行纠正，")
+            flash("您或许一次性取走了多个商品，很抱歉无法仔细识别出每件商品的重量，如果您确认只取走了一种商品，请进行纠正。")
     elif len(new_cart_list) == 1:
         if new_cart_list[0][2] > 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
@@ -57,6 +57,10 @@ def cart():
         if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
             flash("您取走了%s" % fruit_name_dic[fruit_name])
+    # elif len(new_cart_list) == 0:
+    #     flash("很抱歉未能识别出来，请在新增/取出商品处进行纠正。")
+    if len(new_cart_list) == 0 and len(cart_list) == 0:
+        flash("当前购物车无任何商品，去挑一些吧")
 
     return render_template("cart.html", title=_('Shopping Cart'),
                            fruit_list=fruit_list,  # 水果列表
@@ -187,6 +191,9 @@ def change_fruit():
     dataprocessing.edit_kind(id, weight, target_fruit_id)
     return 'success'
 
+
 @app.route("/clear", methods=["POST"])
 def clear_fruits():
     dataprocessing.clear_shoplist()
+    socketioutils.report(1)
+    return 'clear success'
