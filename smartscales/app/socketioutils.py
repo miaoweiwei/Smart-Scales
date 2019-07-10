@@ -17,8 +17,9 @@ def update_cart(content):
     print(content)
 
     new_dict = {v: k for k, v in fruit_name_dic.items()}
-
-    id0 = dataprocessing.name_id[content["name"]]
+    id0 = "1000"
+    if content["name"] != "1000":
+        id0 = dataprocessing.name_id[content["name"]]
     id1 = dataprocessing.name_id[new_dict[content["changeName"]]]
     dataprocessing.edit_kind(id0, id1)
     # 发送消息到前端 参数一表示这个通道的名字，参数二是发送的内容，参数broadcast表示是否广播是所有的前端都能收到信息

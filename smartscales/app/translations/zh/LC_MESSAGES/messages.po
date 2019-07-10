@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-10 20:41+0800\n"
+"POT-Creation-Date: 2019-07-10 22:19+0800\n"
 "PO-Revision-Date: 2019-07-03 10:11+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -143,14 +143,13 @@ msgstr "共%(count)s元"
 msgid "Submit Orders"
 msgstr "提交订单"
 
-#: app/templates/cart.html:48
+#: app/templates/cart.html:47
 msgid "There is nothing in the shopping cart."
 msgstr "购物车里空无一物！"
 
-#: app/templates/cart.html:120
-#, python-format
-msgid "Return to the home page after %(time)s seconds"
-msgstr "%(time)s秒后返回首页"
+#: app/templates/cart.html:134
+msgid "Return to the home page after {time} seconds"
+msgstr "{time}秒后返回首页"
 
 #: app/templates/paidorder.html:5 app/templates/pay.html:5
 msgid "Pending payment"
@@ -175,4 +174,7 @@ msgstr "您没有任何订单需要支付。"
 #: app/templates/pay.html:33
 msgid "Please use Alipay to scan QR code to pay"
 msgstr "请使用支付宝扫描二维码支付。"
+
+#~ msgid "Return to the home page after %(time)s seconds"
+#~ msgstr "%(time)s秒后返回首页"
 

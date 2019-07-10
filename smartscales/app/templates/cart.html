@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block app_content %}
     {% if fruit_list is not none and fruit_list | length > 0 %}
-        <div class="container">
+        <div id="cart_page" class="container">
             <h3 class="table_title">{{ _('Shopping cart') }}</h3>
             <table class="table table-hover">
                 <tr>{# 购物车里的水果表头 #}
@@ -44,22 +44,22 @@
             </ul>
         </div>
     {% else %}
-        {#        <script>javascrtpt:return_home_timing_begins();</script>#}
         <h2 class="warning">{{ _('There is nothing in the shopping cart.') }}</h2>
-        {#        <p class="return-home-info">{{ _("Return to the home page after 10 seconds") }}</p>#}
+        <p class="return-home-info" id="p1"/>
     {% endif %}
 {% endblock %}
 
 {% block scripts %} {# js块 #}
     {{ super() }}
     <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
-    <script>
+    <script type="text/javascript">
         var apiadder = "http://127.0.0.1:5000/";
         var getsettlementapi = apiadder + "settlement";
-
+        var return_home_time;
         var socket = io('/')
         $(function () {
             get();
+            return_home_time = window.setInterval(return_home_task, 1000);
         })
 
         function send(content) {
@@ -102,25 +102,41 @@
             }
         }
 
-        var return_home_time;
-
-
-        function return_home_timing_begins() {
-            return_home_time = window.setInterval(return_home_task, 1000);
-        }
-
         function return_home_timing_end() {
             window.clearInterval(return_home_time);
         }
 
+        String.prototype.format = function () {
+            var resultStr = this.toString();
+            // 参数为对象
+            if (typeof arguments[0] === "object") {
+                for (var i in arguments[0]) {
+                    resultStr = resultStr.replace("{" + i + "}", arguments[0][i]);
+                }
+            }
+            // 多个参数
+            else {
+                for (var i = 0; i < arguments.length; i++) {
+                    resultStr = resultStr.replace("{" + i + "}", arguments[i]);
+                }
+            }
+            return resultStr;
+        };
+
         var sumtime = 10;
 
         function return_home_task() {
-            var return_home_p = document.getElementsByClassName("return-home-info");
-            return_home_p.innerHTML ={{  _('Return to the home page after %(time)s seconds',time=sumtime) }};
-            sumtime -= 0;
-            if (sumtime < 0) {
-                window.location.href = '{{ url_for("index") }}';
+            var page = document.getElementById("cart_page");
+            console.log(page);
+            if (page == null) {
+                var return_home_p = document.getElementById("p1");
+                var temp = "{{ _('Return to the home page after {time} seconds') }}";
+                temp = temp.format({time: sumtime});
+                return_home_p.innerHTML = temp;
+                sumtime -= 1;
+                if (sumtime < 0) {
+                    window.location.href = '{{ url_for("index") }}';
+                }
             }
         }
     </script>
