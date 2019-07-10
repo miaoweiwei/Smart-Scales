@@ -10,7 +10,7 @@ current_list = []
 
 # 定义一个函数来初始化商品
 def init_repository():
-    db = pymysql.connect("localhost", "root", "123456", "fruitshop")
+    db = pymysql.connect("localhost", "root", "1234", "fruitshop")
     cursor = db.cursor()
     sql = "select * from fruit_table"
     try:
@@ -121,6 +121,8 @@ def make_web_list():
         sum = round(sum, 2)
         # the_list[i].extend([name, price, amount])
         the_list.append([name, price, number, amount])
+    if len(current_list) > 0 and current_list[0][0] == '1000':
+        the_list.append(['1000', 0, current_list[0][1], 0])
     return the_list, sum
 
 
@@ -131,7 +133,7 @@ def make_web_new():
         return []
     else:
         if current_list[0][0] == '1000':
-            the_list = ['1000', 0, current_list[0][1], 0]
+            the_list.append(['1000', 0, current_list[0][1], 0])
             return the_list
         for i in range(len(current_list)):
             code = current_list[i][0]
@@ -233,6 +235,15 @@ def edit_kind(id, true_kind_id):
         for i in range(len(current_list)):
             if id == current_list[i][0]:
                 current_list[i] = [true_kind_id, weight]
+                break
+        new_list = list(set([i[0] for i in current_list]))
+        copy_current_list = [i for i in current_list]
+        while len(current_list) > 0:
+            del current_list[0]
+        print('copy_current_list:', copy_current_list)
+        for i in range(len(new_list)):
+            current_list.append([new_list[i], sum([j[1] for j in copy_current_list if j[0] == new_list[i]])])
+            print('current_list.append:', current_list[i])
 
     # if len(current_list) != 0:
     #     current_list.pop(0)
