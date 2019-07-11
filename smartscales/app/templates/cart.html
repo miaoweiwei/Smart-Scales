@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block app_content %}
-    {% if fruit_list is not none and fruit_list | length > 0 %}
-        <div id="cart_page" class="container">
+
+    <div id="cart_page" class="container">
+
+        {% if fruit_list is not none and fruit_list | length > 0 %}
             <h3 class="table_title">{{ _('Shopping cart') }}</h3>
             <table class="table table-hover">
                 <tr>{# 购物车里的水果表头 #}
@@ -16,28 +18,34 @@
                 {% include '_fruit.html' %}{# 显示购物车里的水果列表 #}
                 </tbody>
             </table>
-            {% if newfruits is not none and newfruits | length > 0 %}
-                {% if newfruits[0].get_fruit_netweight()>0 %}
-                    <h3 class="table_title">{{ _('Newly added fruit') }}</h3>
-                {% else %}
-                    <h3 class="table_title">{{ _('Take out the fruit') }}</h3>
-                {% endif %}
-                <table class="table table-hover">
-                    <tr>{# 新增的水果表头 #}
-                        <th class="icon">{{ _('Icon') }}</th>
-                        <th class="text">{{ _('Name') }}</th>
-                        {#                    <th class="text">{{ _('Describe') }}</th>#}
-                        <th class="text">{{ _('Unit Price') }}</th>
-                        <th class="text">{{ _('Net Weight') }}</th>
-                        <th class="text">{{ _('Error Correction') }}</th>
-                    </tr>
-                    <tbody id="new_add_fruit_list_id">{# 显示新增的水果 #}
-                    {% include '_newfruit.html' %}
-                    </tbody>
-                </table>
+        {% endif %}
+
+        {% if newfruits is not none and newfruits | length > 0 %}
+            {% if newfruits[0].get_fruit_netweight()>0 %}
+                <h3 class="table_title">{{ _('Newly added fruit') }}</h3>
+            {% else %}
+                <h3 class="table_title">{{ _('Take out the fruit') }}</h3>
             {% endif %}
+            <table class="table table-hover">
+                <tr>{# 新增的水果表头 #}
+                    <th class="icon">{{ _('Icon') }}</th>
+                    <th class="text">{{ _('Name') }}</th>
+                    {#                    <th class="text">{{ _('Describe') }}</th>#}
+                    <th class="text">{{ _('Unit Price') }}</th>
+                    <th class="text">{{ _('Net Weight') }}</th>
+                    <th class="text">{{ _('Error Correction') }}</th>
+                </tr>
+                <tbody id="new_add_fruit_list_id">{# 显示新增的水果 #}
+                {% include '_newfruit.html' %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+    {% if fruit_list is not none and fruit_list | length > 0 %}
+        <div class="container">
             <ul class="nav navbar-default navbar-nav navbar-right">
-                <li><a>{{ _('%(count)d pieces in total',count=fruit_list.__len__()) }}</a></li>
+                <li><a>{{ _('%(count)d pieces in total',count=fruit_list | length) }}</a></li>
                 <li><a>{{ _('Total %(count)s yuan',count=total) }}</a></li>
                 <button type="button" onclick="javascrtpt:window.location.href='{{ url_for("pay") }}';"
                         class="btn btn-default navbar-btn">{{ _('Submit Orders') }}</button>
@@ -47,6 +55,7 @@
         <h2 class="warning">{{ _('There is nothing in the shopping cart.') }}</h2>
         <p class="return-home-info" id="p1"/>
     {% endif %}
+
 {% endblock %}
 
 {% block scripts %} {# js块 #}
@@ -135,6 +144,7 @@
                 return_home_p.innerHTML = temp;
                 sumtime -= 1;
                 if (sumtime < 0) {
+                    return_home_timing_end();
                     window.location.href = '{{ url_for("index") }}';
                 }
             }

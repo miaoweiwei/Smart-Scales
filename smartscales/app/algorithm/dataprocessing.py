@@ -10,7 +10,8 @@ current_list = []
 
 # 定义一个函数来初始化商品
 def init_repository():
-    db = pymysql.connect("localhost", "root", "1234", "fruitshop")
+    # db = pymysql.connect("localhost", "root", "1234", "fruitshop")
+    db = pymysql.connect("localhost", "root", "123456", "fruitshop")
     cursor = db.cursor()
     sql = "select * from fruit_table"
     try:
