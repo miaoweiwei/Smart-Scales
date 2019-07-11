@@ -123,7 +123,7 @@ def make_web_list():
         # the_list[i].extend([name, price, amount])
         the_list.append([name, price, number, amount])
     if len(current_list) > 0 and current_list[0][0] == '1000':
-        the_list.append(['1000', 0, current_list[0][1], 0])
+        the_list.append(['1000', 0, 0, 0])
     return the_list, sum
 
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if title %}
+            {{ title }} - {{ _('Fruit Supermarket') }}
+        {% else %}
+            {{ _('Fruit Supermarket') }}
+        {% endif %}
+    </title>
+</head>
+<body>
+<div class="container">
+    <ul class="nav navbar-default navbar-nav navbar-right">
+        <button type="button" class="btn btn-default navbar-btn" onclick="send()">{{ _('Payment') }}</button>
+        {#        onclick="javascrtpt:window.location.href='{{ url_for("pay") }}';"#}
+    </ul>
+</div>
+</body>
+<script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+<script type="text/javascript">
+    var socket = io('/')
+    $(function () {
+        get();
+    })
+
+    function send() {
+        var content = "1";
+        socket.emit('settlement', content);
+    }
+
+    function get() {
+        socket.on('settlement', function (data) {
+            console.log(data);
+            /*window.location.reload();*/
+            scrollToEnd();
+        })
+    }
+
+    function scrollToEnd() {//滚动到底部
+        var h = $(document).height() - $(window).height();
+        $(document).scrollTop(h);
+    }
+</script>
+</html>

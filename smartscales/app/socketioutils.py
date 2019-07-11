@@ -15,7 +15,6 @@ from flask_socketio import emit
 @socketio.on('update_cart')  # 使用socketio.on装饰器注册socket
 def update_cart(content):
     print(content)
-
     new_dict = {v: k for k, v in fruit_name_dic.items()}
     id0 = "1000"
     if content["name"] != "1000":
@@ -26,6 +25,13 @@ def update_cart(content):
     # emit('new_message', {'message_html': render_template('message.html', message=message)}, broadcast=True)
     # emit('update_cart', content, broadcast=True)
     emit('update_cart', "1", broadcast=False)
+
+
+@socketio.on("settlement")
+def settlement(content):
+    print(content)
+    if content == "1":  # 收到1就去通知 pay页面跳转到settlement页面
+        emit('settlement', "2", broadcast=True)
 
 
 # 用于服务端主动向前端发送信息

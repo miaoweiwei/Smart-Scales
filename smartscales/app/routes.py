@@ -32,7 +32,6 @@ def index():
 @app.route("/cart", methods=['GET', 'POST'])
 def cart():
     """购物车"""
-    starttime = datetime.datetime.now()
     cart_list, total = dataprocessing.make_web_list()
     new_cart_list = dataprocessing.make_web_new()
     # cart_list = [["apple", 23.12, 12]]
@@ -63,7 +62,6 @@ def cart():
         if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
             flash(_l("You took the %(fruit_name)s away", fruit_name=fruit_name_dic[fruit_name]))
-    print("cart 耗时：" + str(datetime.datetime.now() - starttime))
     return render_template("cart.html", title=_('Shopping Cart'),
                            fruit_list=fruit_list,  # 水果列表
                            newfruits=new_fruit_list,  # 新增水果的列表
@@ -98,7 +96,7 @@ def paidorder():
 @app.route("/settlement", methods=["GET", "POST"])
 def settlement():
     """结算"""
-    return "settlement"
+    return render_template('settlement.html', title=_("Settlement"))
 
 
 # 上传图片进行识别

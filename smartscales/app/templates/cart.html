@@ -2,7 +2,6 @@
 {% block app_content %}
 
     <div id="cart_page" class="container">
-
         {% if fruit_list is not none and fruit_list | length > 0 %}
             <h3 class="table_title">{{ _('Shopping cart') }}</h3>
             <table class="table table-hover">
@@ -52,8 +51,10 @@
             </ul>
         </div>
     {% else %}
-        <h2 class="warning">{{ _('There is nothing in the shopping cart.') }}</h2>
-        <p class="return-home-info" id="p1"/>
+        <div>
+            <h2 class="warning">{{ _('There is nothing in the shopping cart.') }}</h2>
+            <p class="return-home-info" id="p1"/>
+        </div>
     {% endif %}
 
 {% endblock %}
@@ -62,7 +63,7 @@
     {{ super() }}
     <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
     <script type="text/javascript">
-        var apiadder = "http://127.0.0.1:5000/";
+        var apiadder = '{{ url_for("index") }}';
         var getsettlementapi = apiadder + "settlement";
         var return_home_time;
         var socket = io('/')
@@ -136,11 +137,13 @@
 
         function return_home_task() {
             var page = document.getElementById("cart_page");
-            console.log(page);
-            if (page == null) {
+            console.log(page.innerText);
+            {#if (page == null) {#}
+            if (page.innerText == "") {
                 var return_home_p = document.getElementById("p1");
                 var temp = "{{ _('Return to the home page after {time} seconds') }}";
                 temp = temp.format({time: sumtime});
+                console.log(temp);
                 return_home_p.innerHTML = temp;
                 sumtime -= 1;
                 if (sumtime < 0) {
