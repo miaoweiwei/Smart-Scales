@@ -7,6 +7,7 @@
 @Software: PyCharm
 @Desc    : 路由视图
 """
+import datetime
 import os
 from PIL import Image
 from flask import render_template, request, flash
@@ -31,14 +32,13 @@ def index():
 @app.route("/cart", methods=['GET', 'POST'])
 def cart():
     """购物车"""
+    starttime = datetime.datetime.now()
     cart_list, total = dataprocessing.make_web_list()
     new_cart_list = dataprocessing.make_web_new()
     # cart_list = [["apple", 23.12, 12]]
     # total = 23.12 * 12
     # new_cart_list = [["apple", 23.12, 12]]
-
     fruit_list = []
-
     if len(cart_list) > 0:
         for i in range(len(cart_list)):
             fruit = Fruit(cart_list[i][0], cart_list[i][1], cart_list[i][2])
@@ -63,7 +63,7 @@ def cart():
         if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
             flash(_l("You took the %(fruit_name)s away", fruit_name=fruit_name_dic[fruit_name]))
-
+    print("cart 耗时：" + str(datetime.datetime.now() - starttime))
     return render_template("cart.html", title=_('Shopping Cart'),
                            fruit_list=fruit_list,  # 水果列表
                            newfruits=new_fruit_list,  # 新增水果的列表
@@ -104,6 +104,7 @@ def settlement():
 # 上传图片进行识别
 @app.route("/upload", methods=['POST'])
 def get_frame():
+    starttime = datetime.datetime.now()
     upload_file = request.files['file']
     weight = request.form.get('weight')
     old_file_name = upload_file.filename
@@ -142,6 +143,7 @@ def get_frame():
                 if len(result) == 0:
                     dataprocessing.add_empty(weight)
                     socketioutils.report(1)
+                    print("upload耗时：" + str(datetime.datetime.now() - starttime))
                     return "can not recognize"
                 name = result[0]
                 namelist = result
@@ -159,6 +161,7 @@ def get_frame():
                 if len(result) == 0:
                     dataprocessing.remove_empty(weight)
                     socketioutils.report(1)
+                    print("upload耗时：" + str(datetime.datetime.now() - starttime))
                     return "can not recognize"
                 name = result[0]
                 namelist = result
@@ -175,8 +178,10 @@ def get_frame():
         print('make_web_list', dataprocessing.make_web_list())
         print('make_web_new', dataprocessing.make_web_new())
         socketioutils.report(1)
+        print("upload耗时：" + str(datetime.datetime.now() - starttime))
         return 'success'
     else:
+        print("upload耗时：" + str(datetime.datetime.now() - starttime))
         return 'failed'
 
 

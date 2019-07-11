@@ -25,7 +25,8 @@ MODEL_DATA_PATH = join(ALGORITHM_PATH, 'model_data')  # 模型数据路径
 TEST_PATH = join(DATA_PATH, 'test1')
 IMAGES_PATH = join(DATA_PATH, 'images')
 CROPPED_PATH = join(DATA_PATH, 'cropped')
-BACK_GROUND = join(DATA_PATH, 'background/background.jpg')
+# BACK_GROUND = join(DATA_PATH, 'background/background.jpg')
+BACK_GROUND = join(DATA_PATH, 'background/background1.jpg')
 '''背景'''
 
 

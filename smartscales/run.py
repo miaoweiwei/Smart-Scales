@@ -8,5 +8,5 @@ if __name__ == '__main__':
     # 如果在run（）里加入参数 use_reloader=False，就会取消这个功能，当然，在以后的代码改动后也不会自动更新了。
     # 可以查看WERKZEUG_RUN_MAIN环境变量， 默认情况下，调用子程序时，它会被设置为True
     # WERKZEUG_RUN_MAIN = False
-    socketio.run(app=app, host='0.0.0.0')
-    # app.run(debug=True)  # 调试模式
+    socketio.run(app=app, host='0.0.0.0', port='8888')
+    # app.run(host='0.0.0.0', port='8888')  # 调试模式

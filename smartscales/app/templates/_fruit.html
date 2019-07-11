@@ -16,13 +16,23 @@
         {#            {% endif %}#}
         {#        </td>#}
         <td>
-            ¥{{ fruit.get_fruit_unitprice() }}/kg
+            {% if fruit.get_fruit_unitprice()<0 %}
+                ¥{{ -fruit.get_fruit_unitprice() }}/kg
+            {% else %}
+                ¥{{ fruit.get_fruit_unitprice() }}/kg
+            {% endif %}
+
         </td>
         <td>
             {{ fruit.get_fruit_netweight() }}kg
         </td>
         <td>
-            ¥{{ fruit.get_subtotal() }}
+            {% if fruit.get_subtotal()<0 %}
+                ¥{{ -fruit.get_subtotal() }}
+            {% else %}
+                ¥{{ fruit.get_subtotal() }}
+            {% endif %}
+
         </td>
     </tr>
 {% endfor %}
