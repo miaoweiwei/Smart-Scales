@@ -141,6 +141,7 @@ def get_frame():
                 r_image, result = yolo.detect_image(image_B)
                 if len(result) == 0:
                     dataprocessing.add_empty(weight)
+                    socketioutils.report(1)
                     return "can not recognize"
                 name = result[0]
                 namelist = result
@@ -157,6 +158,7 @@ def get_frame():
                 r_image, result = yolo.detect_image(image_A)
                 if len(result) == 0:
                     dataprocessing.remove_empty(weight)
+                    socketioutils.report(1)
                     return "can not recognize"
                 name = result[0]
                 namelist = result
