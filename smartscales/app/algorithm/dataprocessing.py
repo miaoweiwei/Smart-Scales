@@ -134,7 +134,7 @@ def make_web_new():
         return []
     else:
         if current_list[0][0] == '1000':
-            the_list.append(['1000', 0, current_list[0][1], 0])
+            the_list.append(['1000', 0, round(current_list[0][1], 3), 0])
             return the_list
         for i in range(len(current_list)):
             code = current_list[i][0]
@@ -180,13 +180,13 @@ def add_fruit(id, weight):
 
 
 def add_empty(weight):
-    if len(current_list) != 0:
+    while len(current_list) != 0:
         current_list.pop(0)
     current_list.append(['1000', weight])
 
 
 def remove_empty(weight):
-    if len(current_list) != 0:
+    while len(current_list) != 0:
         current_list.pop(0)
     current_list.append(['1000', weight])
 

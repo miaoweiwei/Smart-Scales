@@ -54,6 +54,11 @@
             socket.emit('settlement', content);
         }
 
+        function scrollToEnd() {//滚动到底部
+            var h = $(document).height() - $(window).height();
+            $(document).scrollTop(h);
+        }
+
         function get() {
             socket.on('settlement', function (data) {
                 console.log(data);
@@ -76,10 +81,5 @@
         }
 
         makeCode(); /*使页面加载完成就显示二维码*/
-
-        function scrollToEnd() {//滚动到底部
-            var h = $(document).height() - $(window).height();
-            $(document).scrollTop(h);
-        }
     </script>
 {% endblock %}

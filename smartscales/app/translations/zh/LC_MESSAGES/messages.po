@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-10 22:19+0800\n"
+"POT-Creation-Date: 2019-07-13 01:48+0800\n"
 "PO-Revision-Date: 2019-07-03 10:11+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: app/routes.py:54
+#: app/routes.py:53
 msgid ""
 "You may have placed a variety of items at once. Sorry, you can't "
 "carefully identify the weight of each item. Please take out the various "
@@ -26,34 +26,38 @@ msgid ""
 " item is placed, please Make corrections."
 msgstr "您可能一次性放入了多个商品，很抱歉无法仔细识别出每件商品的重量，请将刚刚放入的多种商品取出，依次放入，如果您确认只放入了一种商品，请进行纠正。"
 
-#: app/routes.py:57
+#: app/routes.py:56
 msgid ""
 "You may have taken a variety of items at once, and I am sorry that you "
 "cannot carefully identify the weight of each item. If you confirm that "
 "only one item has been removed, please correct it."
 msgstr "您或许一次性取走了多个商品，很抱歉无法仔细识别出每件商品的重量，如果您确认只取走了一种商品，请进行纠正。"
 
-#: app/routes.py:62
+#: app/routes.py:61
 #, python-format
 msgid "You added new %(fruit_name)s"
 msgstr "您新加入了%(fruit_name)s"
 
-#: app/routes.py:65
+#: app/routes.py:64
 #, python-format
 msgid "You took the %(fruit_name)s away"
 msgstr "您拿走了%(fruit_name)s"
 
-#: app/routes.py:67 app/templates/base.html:50
+#: app/routes.py:65 app/templates/base.html:50
 msgid "Shopping Cart"
 msgstr "购物车"
 
-#: app/routes.py:83
+#: app/routes.py:81 app/templates/settlement.html:41
 msgid "Payment"
 msgstr "付款"
 
-#: app/routes.py:95
+#: app/routes.py:93
 msgid "The fruit I bought"
 msgstr "我买到的商品"
+
+#: app/routes.py:105
+msgid "Settlement"
+msgstr "结算"
 
 #: app/templates/404.html:4
 msgid "File Not Found"
@@ -73,6 +77,7 @@ msgstr "管理员已收到通知。 抱歉给你带来不便！"
 
 #: app/templates/base.html:20 app/templates/base.html:22
 #: app/templates/base.html:42 app/templates/index.html:10
+#: app/templates/settlement.html:15 app/templates/settlement.html:17
 msgid "Fruit Supermarket"
 msgstr "果蔬超市"
 
@@ -88,76 +93,78 @@ msgstr "未付款"
 msgid "Paid Order"
 msgstr "已付款"
 
-#: app/templates/cart.html:5
+#: app/templates/cart.html:6
 msgid "Shopping cart"
 msgstr "购物车"
 
-#: app/templates/cart.html:8 app/templates/cart.html:27
+#: app/templates/cart.html:9 app/templates/cart.html:30
 #: app/templates/paidorder.html:8 app/templates/pay.html:8
+#: app/templates/settlement.html:27
 msgid "Icon"
 msgstr "图标"
 
-#: app/templates/cart.html:9 app/templates/cart.html:28
+#: app/templates/cart.html:10 app/templates/cart.html:31
 #: app/templates/paidorder.html:9 app/templates/pay.html:9
+#: app/templates/settlement.html:28
 msgid "Name"
 msgstr "名称"
 
-#: app/templates/cart.html:11 app/templates/cart.html:30
+#: app/templates/cart.html:12 app/templates/cart.html:33
 #: app/templates/paidorder.html:11 app/templates/pay.html:11
+#: app/templates/settlement.html:30
 msgid "Unit Price"
 msgstr "单价"
 
-#: app/templates/cart.html:12 app/templates/cart.html:31
+#: app/templates/cart.html:13 app/templates/cart.html:34
 #: app/templates/paidorder.html:12 app/templates/pay.html:12
+#: app/templates/settlement.html:31
 msgid "Net Weight"
 msgstr "净重"
 
-#: app/templates/cart.html:13 app/templates/paidorder.html:13
-#: app/templates/pay.html:13
+#: app/templates/cart.html:14 app/templates/paidorder.html:13
+#: app/templates/pay.html:13 app/templates/settlement.html:32
 msgid "Subtotal"
 msgstr "小计"
 
-#: app/templates/cart.html:21
+#: app/templates/cart.html:24
 msgid "Newly added fruit"
 msgstr "新增加商品"
 
-#: app/templates/cart.html:23
+#: app/templates/cart.html:26
 msgid "Take out the fruit"
 msgstr "取出商品"
 
-#: app/templates/cart.html:32
+#: app/templates/cart.html:35
 msgid "Error Correction"
 msgstr "纠错"
 
-#: app/templates/cart.html:40 app/templates/pay.html:22
+#: app/templates/cart.html:47 app/templates/pay.html:22
+#: app/templates/settlement.html:39
 #, python-format
 msgid "%(count)d pieces in total"
 msgstr "共%(count)d件"
 
-#: app/templates/cart.html:41 app/templates/pay.html:23
+#: app/templates/cart.html:48 app/templates/pay.html:23
+#: app/templates/settlement.html:40
 #, python-format
 msgid "Total %(count)s yuan"
 msgstr "共%(count)s元"
 
-#: app/templates/cart.html:43
+#: app/templates/cart.html:50
 msgid "Submit Orders"
 msgstr "提交订单"
 
-#: app/templates/cart.html:47
+#: app/templates/cart.html:55
 msgid "There is nothing in the shopping cart."
 msgstr "购物车里空无一物！"
 
-#: app/templates/cart.html:134
+#: app/templates/cart.html:144
 msgid "Return to the home page after {time} seconds"
 msgstr "{time}秒后返回首页"
 
-#: app/templates/paidorder.html:5 app/templates/pay.html:5
-msgid "Pending payment"
-msgstr "待付款"
-
-#: app/templates/paidorder.html:10 app/templates/pay.html:10
-msgid "Describe"
-msgstr "描述"
+#: app/templates/paidorder.html:5
+msgid "Paid order"
+msgstr "已付款"
 
 #: app/templates/paidorder.html:20
 msgid "Please take away your goods and be careful not to omit them!"
@@ -167,6 +174,10 @@ msgstr "请带走您的商品，不要遗漏它们！"
 msgid "You haven't bought fruit yet."
 msgstr "你还没有购买商品。"
 
+#: app/templates/pay.html:5
+msgid "Pending payment"
+msgstr "待付款"
+
 #: app/templates/pay.html:27
 msgid "You don't have any orders to pay."
 msgstr "您没有任何订单需要支付。"
@@ -175,6 +186,17 @@ msgstr "您没有任何订单需要支付。"
 msgid "Please use Alipay to scan QR code to pay"
 msgstr "请使用支付宝扫描二维码支付。"
 
+#: app/templates/settlement.html:24
+msgid "Your order"
+msgstr "您的订单"
+
+#: app/templates/settlement.html:44
+msgid "You have no unpaid orders"
+msgstr "您没有需要支付的订单"
+
 #~ msgid "Return to the home page after %(time)s seconds"
 #~ msgstr "%(time)s秒后返回首页"
+
+#~ msgid "Describe"
+#~ msgstr "描述"
 

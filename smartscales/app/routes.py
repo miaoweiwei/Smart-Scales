@@ -96,7 +96,13 @@ def paidorder():
 @app.route("/settlement", methods=["GET", "POST"])
 def settlement():
     """结算"""
-    return render_template('settlement.html', title=_("Settlement"))
+    cart_list, total = dataprocessing.make_web_list()
+    fruit_list = []
+    if len(cart_list) > 0:
+        for i in range(len(cart_list)):
+            fruit = Fruit(cart_list[i][0], cart_list[i][1], cart_list[i][2])
+            fruit_list.append(fruit)
+    return render_template('settlement.html', title=_("Settlement"), fruit_list=fruit_list, total=total)
 
 
 # 上传图片进行识别
@@ -131,13 +137,17 @@ def get_frame():
         cropped_B_path, cropped_A_path = get_difference(image_A_path, image_B_path, al.CROPPED_PATH)
         image_B = Image.open(cropped_B_path)
         image_A = Image.open(cropped_A_path)
+        image_C = Image.open(file_path)
         weight = float(weight)
         print('A_path:', cropped_A_path)
         print('B_path:', cropped_B_path)
 
         with graph.as_default():
             if weight > 0.05:
-                r_image, result = yolo.detect_image(image_B)
+                if image_count == "001":
+                    r_image, result = yolo.detect_image(image_C)
+                else:
+                    r_image, result = yolo.detect_image(image_B)
                 if len(result) == 0:
                     dataprocessing.add_empty(weight)
                     socketioutils.report(1)

@@ -2,7 +2,7 @@
 
 {% block app_content %}
     {% if fruit_list is not none and fruit_list | length > 0 %}
-        <h3 class="table_title">{{ _('Pending payment') }}</h3>
+        <h3 class="table_title">{{ _('Paid order') }}</h3>
         <table class="table table-hover">
             <tr>{# 购物车里的水果表头 #}
                 <th class="icon">{{ _('Icon') }}</th>
@@ -26,4 +26,12 @@
 
 {% block scripts %} {# js块 #}
     {{ super() }}
+    <script type="text/javascript">
+        function scrollToEnd() {//滚动到底部
+            var h = $(document).height() - $(window).height();
+            $(document).scrollTop(h);
+        }
+
+        scrollToEnd();
+    </script>
 {% endblock %}
