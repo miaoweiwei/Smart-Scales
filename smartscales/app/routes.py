@@ -146,6 +146,7 @@ def get_frame():
             if weight > 0.05:
                 if image_count == "001":
                     r_image, result = yolo.detect_image(image_C)
+                    print("detect 001")
                 else:
                     r_image, result = yolo.detect_image(image_B)
                 if len(result) == 0:
