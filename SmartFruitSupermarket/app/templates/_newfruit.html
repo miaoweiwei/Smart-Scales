@@ -1,0 +1,43 @@
+{#_前缀只是一个命名约定，可以帮助我识别哪些模板文件是子模板#}
+{% for newfruit in newfruits %} {# 显示新增的水果 #}
+    <tr>
+        <td class="icon">
+            {# 设置图标为圆形 #}
+            <div class="td_div_icon">
+                <img src="{{ newfruit.get_fruit_icon() }}"/>
+            </div>
+        </td>
+        <td>
+            {{ newfruit.get_fruit_name() }}
+        </td>
+        {#        <td>#}
+        {#            {% if newfruit.get_fruit_describe() %}#}
+        {#                {{ newfruit.get_fruit_describe() }}#}
+        {#            {% endif %}#}
+        {#        </td>#}
+        <td>
+            ¥{{ newfruit.get_fruit_unitprice() }}/kg
+        </td>
+        <td>
+            {% if newfruit.get_fruit_netweight()>0 %}
+                {{ newfruit.get_fruit_netweight() }}kg
+            {% else %}
+                {{ -newfruit.get_fruit_netweight() }}kg
+            {% endif %}
+
+        </td>
+        <td>
+            <form>
+                {#用于修正的下拉框#}
+                <select id="{{ newfruit.name }}" onchange="onChange(this)">
+                    {% for fruit in fruitnames %} {# fruits 表示水果种类的列表 #}
+                        <option value="{{ fruit }}" {% if fruit == newfruit.get_fruit_name() %}
+                                selected="selected" {% endif %}>
+                            {{ fruit }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </td>
+    </tr>
+{% endfor %}

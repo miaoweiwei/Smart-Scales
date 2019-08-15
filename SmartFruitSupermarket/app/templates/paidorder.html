@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+    {% if fruit_list is not none and fruit_list | length > 0 %}
+        <h3 class="table_title">{{ _('Paid order') }}</h3>
+        <table class="table table-hover">
+            <tr>{# 购物车里的水果表头 #}
+                <th class="icon">{{ _('Icon') }}</th>
+                <th class="text">{{ _('Name') }}</th>
+                {#                <th class="text">{{ _('Describe') }}</th>#}
+                <th class="text">{{ _('Unit Price') }}</th>
+                <th class="text">{{ _('Net Weight') }}</th>
+                <th class="text">{{ _('Subtotal') }}</th>
+            </tr>
+            <tbody id="old_fruit_list_id">
+            {% include '_fruit.html' %}{# 显示购物车里的水果列表 #}
+            </tbody>
+        </table>
+
+        <h2 class="prompt">{{ _("Please take away your goods and be careful not to omit them!") }}</h2>
+    {% else %}
+        <h2 class="warning">{{ _("You haven't bought fruit yet.") }}</h2>
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %} {# js块 #}
+    {{ super() }}
+    <script type="text/javascript">
+        function scrollToEnd() {//滚动到底部
+            var h = $(document).height() - $(window).height();
+            $(document).scrollTop(h);
+        }
+
+        scrollToEnd();
+    </script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block head %} {# 显示网站小图标 #}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/fruit.png') }}" type="image/x-icon">
+{% endblock %}
+{% block title %}
+    {% if title %}
+        {{ title }} - {{ _('Fruit Supermarket') }}
+    {% else %}
+        {{ _('Fruit Supermarket') }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {# get_flashed_messages()函数返回用flash()注册过的消息列表 #}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info" role="alert" style="font-size: 30px">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {# 页面 #}
+        <h1>{{ _('Sign In') }}</h1>
+        <div class="row">
+            <div class="col-md-4">
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+        <br>
+    </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'bootstrap/base.html' %}
+{# Flask-Bootstrap派生的基础模板定义了一些块 #}
+{# 提供 title<Web标题>、navbar<导航栏>、content<页面>、scripts<js脚本> #}
+
+{# 在bootstrap/base.html中已经订好了许多块 #}
+{#例如 doc、html_attribs、html、head、title、metas、styles、body_attribs、navbar、content、scripts #}
+{# 在引用css和js的时候要当心要写在 styles/scripts块中并且 调用{{ super() }} #}
+{#页面主题#}
+{% block styles %} {# 样式块 #}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">{# 下面的这种方式加载 css也是可以的#}
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+{% endblock %}
+
+{% block head %} {# 显示网站小图标 #}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/fruit.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='icons/fruit.png') }}" type="image/x-icon">
+{% endblock %}
+{% block title %}
+    {% if title %}
+        {{ title }} - {{ _('Fruit Supermarket') }}
+    {% else %}
+        {{ _('Fruit Supermarket') }}
+    {% endif %}
+{% endblock %}
+
+{% block navbar %} <!--导航栏-->
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {# 页面 #}
+        {% block app_content %}{% endblock %}
+        {# get_flashed_messages()函数返回用flash()注册过的消息列表 #}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info" role="alert" style="font-size: 30px">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+{% endblock %}
+
+{% block scripts %}<!--块是Flask-Bootstrap基础模板暴露的一个块-->
+    {#    与其他插件不同的是，Flask-Moment与moment.js一起工作，#}
+    {#    moment.js 脚本是一个格式化日期的脚本#}
+    {#    因此应用的所有模板都必须包含moment.js。为了确保该库始终可用，我将把它添加到基础模板中#}
+    {{ super() }}
+    {{ moment.include_moment() }} <!--它直接生成了一个<script>标签并在其中包含moment.js：-->
+{% endblock %}

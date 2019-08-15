@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block app_content %}
+
+    <div id="cart_page" class="container">
+        {% if fruit_list is not none and fruit_list | length > 0 %}
+            <h3 class="table_title">{{ _('Shopping cart') }}</h3>
+            <table class="table table-hover">
+                <tr>{# 购物车里的水果表头 #}
+                    <th class="icon">{{ _('Icon') }}</th>
+                    <th class="text">{{ _('Name') }}</th>
+                    {#                <th class="text">{{ _('Describe') }}</th>#}
+                    <th class="text">{{ _('Unit Price') }}</th>
+                    <th class="text">{{ _('Net Weight') }}</th>
+                    <th class="text">{{ _('Subtotal') }}</th>
+                </tr>
+                <tbody id="old_fruit_list_id">
+                {% include '_fruit.html' %}{# 显示购物车里的水果列表 #}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if newfruits is not none and newfruits | length > 0 %}
+            {% if newfruits[0].get_fruit_netweight()>0 %}
+                <h3 class="table_title">{{ _('Newly added fruit') }}</h3>
+            {% else %}
+                <h3 class="table_title">{{ _('Take out the fruit') }}</h3>
+            {% endif %}
+            <table class="table table-hover">
+                <tr>{# 新增的水果表头 #}
+                    <th class="icon">{{ _('Icon') }}</th>
+                    <th class="text">{{ _('Name') }}</th>
+                    {#                    <th class="text">{{ _('Describe') }}</th>#}
+                    <th class="text">{{ _('Unit Price') }}</th>
+                    <th class="text">{{ _('Net Weight') }}</th>
+                    <th class="text">{{ _('Error Correction') }}</th>
+                </tr>
+                <tbody id="new_add_fruit_list_id">{# 显示新增的水果 #}
+                {% include '_newfruit.html' %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+    {% if fruit_list is not none and fruit_list | length > 0 %}
+        <div class="container">
+            <ul class="nav navbar-default navbar-nav navbar-right">
+                <li><a>{{ _('%(count)d pieces in total',count=fruit_list | length) }}</a></li>
+                <li><a>{{ _('Total %(count)s yuan',count=total) }}</a></li>
+                <button type="button" onclick="javascrtpt:window.location.href='{{ url_for("pay") }}';"
+                        class="btn btn-default navbar-btn">{{ _('Submit Orders') }}</button>
+            </ul>
+        </div>
+    {% else %}
+        <div>
+            <h2 class="warning">{{ _('There is nothing in the shopping cart.') }}</h2>
+            <p class="return-home-info" id="p1"/>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %} {# js块 #}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script type="text/javascript">
+        var apiadder = '{{ url_for("index") }}';
+        var getsettlementapi = apiadder + "settlement";
+        var return_home_time;
+        var socket = io('/')
+        $(function () {
+            get();
+            return_home_time = window.setInterval(return_home_task, 1000);
+        })
+
+        function send(content) {
+            socket.emit('update_cart', content);
+        }
+
+        function onChange(select) {
+            changeData = {"name": select.id, "changeName": select.value};
+            send(changeData);
+        }
+
+        function get() {
+            socket.on('update_cart', function (data) {
+                /*alert(data);*/
+                window.location.reload();
+                scrollToEnd();
+            })
+        }
+
+        function scrollToEnd() {//滚动到底部
+            var h = $(document).height() - $(window).height();
+            $(document).scrollTop(h);
+        }
+
+        function settlement() {
+            try {
+                let url = getsettlementapi;
+                $.getJSON({
+                    url: url,
+                    data: {},
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    fail: function () {
+                        alert("请求失败！");
+                    }
+                });
+            } catch (e) {
+                alert(e);
+            }
+        }
+
+        function return_home_timing_end() {
+            window.clearInterval(return_home_time);
+        }
+
+        String.prototype.format = function () {
+            var resultStr = this.toString();
+            // 参数为对象
+            if (typeof arguments[0] === "object") {
+                for (var i in arguments[0]) {
+                    resultStr = resultStr.replace("{" + i + "}", arguments[0][i]);
+                }
+            }
+            // 多个参数
+            else {
+                for (var i = 0; i < arguments.length; i++) {
+                    resultStr = resultStr.replace("{" + i + "}", arguments[i]);
+                }
+            }
+            return resultStr;
+        };
+
+        var sumtime = 10;
+
+        function return_home_task() {
+            var page = document.getElementById("cart_page");
+            console.log(page.innerText);
+            {#if (page == null) {#}
+            if (page.innerText == "") {
+                var return_home_p = document.getElementById("p1");
+                var temp = "{{ _('Return to the home page after {time} seconds') }}";
+                temp = temp.format({time: sumtime});
+                console.log(temp);
+                return_home_p.innerHTML = temp;
+                sumtime -= 1;
+                if (sumtime < 0) {
+                    return_home_timing_end();
+                    window.location.href = '{{ url_for("index") }}';
+                }
+            }
+        }
+    </script>
+{% endblock %}

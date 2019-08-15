@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    {% if fruit_list is not none and fruit_list | length > 0 %}
+        <h3 class="table_title">{{ _('Pending payment') }}</h3>
+        <table class="table table-hover">
+            <tr>{# 购物车里的水果表头 #}
+                <th class="icon">{{ _('Icon') }}</th>
+                <th class="text">{{ _('Name') }}</th>
+                {#                <th class="text">{{ _('Describe') }}</th>#}
+                <th class="text">{{ _('Unit Price') }}</th>
+                <th class="text">{{ _('Net Weight') }}</th>
+                <th class="text">{{ _('Subtotal') }}</th>
+            </tr>
+            <tbody id="old_fruit_list_id">
+            {% include '_fruit.html' %}{# 显示购物车里的水果列表 #}
+            </tbody>
+        </table>
+
+        <div class="container">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>{{ _('%(count)d pieces in total',count=fruit_list.__len__()) }}</a></li>
+                <li><a>{{ _('Total %(count)s yuan',count=total) }}</a></li>
+            </ul>
+        </div>
+    {% else %}
+        <h2 class="warning">{{ _("You don't have any orders to pay.") }}</h2>
+    {% endif %}
+
+
+    {% if total!=None and total!=0 %} {# 显示支付二维码的位置 #}
+        <div align="center">
+            <h4>{{ _('Please use Alipay to scan QR code to pay') }}</h4>
+        </div>
+        <div id="qrcode" align="center" width="200px" height="200px">
+            {#            <img width="200px" height="200px" src="{{ url_for('static',filename='images/qr.png') }}">#}
+        </div>
+    {% endif %}
+
+{% endblock %}
+{% block scripts %} {# js块 #}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+    <script type="text/javascript">
+
+        var socket = io('/')
+        $(function () {
+            get();
+        })
+
+        function send(content) {
+            socket.emit('settlement', content);
+        }
+
+        function scrollToEnd() {//滚动到底部
+            var h = $(document).height() - $(window).height();
+            $(document).scrollTop(h);
+        }
+
+        function get() {
+            socket.on('settlement', function (data) {
+                console.log(data);
+                if (data === "2") {
+                    window.location.href = '{{ url_for("paidorder") }}';
+                }
+                scrollToEnd();
+            })
+        }
+
+        function makeCode() { /*生成二维码*/
+            var arcode_element = document.getElementById("qrcode")
+            if (arcode_element != null) {
+                var qrcode = new QRCode(arcode_element, {
+                    width: 200,
+                    height: 200
+                });
+                qrcode.makeCode('{{ url_for("settlement",_external=True) }}');
+            }
+        }
+
+        makeCode(); /*使页面加载完成就显示二维码*/
+    </script>
+{% endblock %}
