@@ -1,0 +1,134 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %} {# 样式块 #}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">{# 下面的这种方式加载 css也是可以的 #}
+    {#    <link rel="stylesheet" type="text/css" href="../static/css/style.css">#}
+{% endblock %}
+
+{# 在bootstrap/base.html中已经订好了许多块 #}
+{#例如 doc、html_attribs、html、head、title、metas、styles、body_attribs、navbar、content、scripts #}
+{# 在引用css和js的时候要当心要写在 styles/scripts块中并且 调用{{ super() }} #}
+{#页面主题#}
+{% block head %} {# 显示网站小图标 #}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/fruit.png') }}" type="image/x-icon">
+{% endblock %}
+{% block title %}
+    {% if title %}
+        {{ title }} - {{ _('Fruit Supermarket') }}
+    {% else %}
+        {{ _('Fruit Supermarket') }}
+    {% endif %}
+{% endblock %}
+
+{% block navbar %} <!--导航栏-->
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">{{ _('Toggle navigation') }}</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {#                <a class="navbar-brand" href="{{ url_for('index') }}">{{ _('Fruit Supermarket') }}</a>#}
+                <ul class="nav navbar-nav">
+                    <li><a class="navbar-brand" href="{{ url_for('manage') }}">
+                        <img align="center" width="20px" src="{{ url_for('static',filename='icons/fruit.png') }}">
+                    </a></li>
+                    <li><a class="navbar-brand" href="{{ url_for('manage') }}">{{ _('Fruit Supermarket') }}</a></li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">{# 显示在左边的标题空间 #}
+                    {#                    <li><a href="{{ url_for('index') }}">{{ _('Home') }}</a></li>#}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{{ url_for('modify') }}">
+                            {{ _('Messages') }}
+                            {% if error_num %}
+                                {% set new_messages = error_num %}
+                            {% else %}
+                                {% set new_messages = none %}
+                            {% endif %}
+                            <span id="message_count" class="badge"
+                                  style="visibility: {% if new_messages %} visible {% else %}hidden {% endif %};background-color: red">
+                                {{ new_messages }}
+                            </span>
+                        </a>
+                    </li>
+                    <li><a href="{{ url_for('bills') }}">{{ _('bills') }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {# get_flashed_messages()函数返回用flash()注册过的消息列表 #}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info" role="alert" style="font-size: 30px">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {# 页面 #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block scripts %}<!--块是Flask-Bootstrap基础模板暴露的一个块-->
+    {#    与其他插件不同的是，Flask-Moment与moment.js一起工作，#}
+    {#    moment.js 脚本是一个格式化日期的脚本#}
+    {#    因此应用的所有模板都必须包含moment.js。为了确保该库始终可用，我将把它添加到基础模板中#}
+    {{ super() }}
+    {{ moment.include_moment() }} <!--它直接生成了一个<script>标签并在其中包含moment.js：-->
+    <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+    <script>
+        var socket = io('/')
+        $(function () { /* 这个函数将在页面加载完成时运行 */
+            get();
+        })
+
+        function get() { {# 收到纠错的信息 #}
+            socket.on('modify', function (data) {
+                set_message_count(data);
+                {#window.location.reload();#}
+                {#scrollToEnd();#}
+            });
+            socket.on('update_cart', function (data) {
+                window.location.reload();
+                scrollToEnd();
+            })
+        }
+
+        function send(name, content) {
+            console.log(name);
+            console.log(content);
+            socket.emit(name, content);
+        }
+
+        function onChange(select) {
+            changeData = {"name": select.id, "changeName": select.value};
+            send('update_cart', changeData);
+        }
+
+        //这个新的set_message_count()函数将设置徽章元素中的消息数量，并调整可见性，以便在计数为0时隐藏徽章。
+        function set_message_count(n) {
+            teml = document.getElementById("message_count");
+            teml.innerText = n;
+            teml.style.visibility = n ? 'visible' : 'hidden';
+        }
+
+        function scrollToEnd() {//滚动到底部
+            var h = $(document).height() - $(window).height();
+            $(document).scrollTop(h);
+        }
+    </script>
+{% endblock %}
+

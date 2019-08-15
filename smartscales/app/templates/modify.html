@@ -1,0 +1,91 @@
+{% extends "server_base.html" %}
+{% block app_content %}
+    <div id="cart_page" class="container">
+        {% if fruit_list is not none and fruit_list | length > 0 %}
+            <h3 class="table_title">{{ _('Shopping cart') }}</h3>
+            <table class="table table-hover">
+                <tr>{# 购物车里的水果表头 #}
+                    <th class="icon">{{ _('Icon') }}</th>
+                    <th class="text">{{ _('Name') }}</th>
+                    {#                <th class="text">{{ _('Describe') }}</th>#}
+                    <th class="text">{{ _('Unit Price') }}</th>
+                    <th class="text">{{ _('Net Weight') }}</th>
+                    <th class="text">{{ _('Subtotal') }}</th>
+                </tr>
+                <tbody id="old_fruit_list_id">
+                {% include '_fruit.html' %}{# 显示购物车里的水果列表 #}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if newfruits is not none and newfruits | length > 0 %}
+            {% if newfruits[0].get_fruit_netweight()>0 %}
+                <h3 class="table_title">{{ _('Newly added fruit') }}</h3>
+            {% else %}
+                <h3 class="table_title">{{ _('Take out the fruit') }}</h3>
+            {% endif %}
+            <table class="table table-hover">
+                <tr>{# 新增的水果表头 #}
+                    <th class="icon">{{ _('Icon') }}</th>
+                    <th class="text">{{ _('Name') }}</th>
+                    {#                    <th class="text">{{ _('Describe') }}</th>#}
+                    <th class="text">{{ _('Unit Price') }}</th>
+                    <th class="text">{{ _('Net Weight') }}</th>
+                    <th class="text">{{ _('Error Correction') }}</th>
+                </tr>
+                <tbody id="new_add_fruit_list_id">{# 显示新增的水果 #}
+                {#_前缀只是一个命名约定，可以帮助我识别哪些模板文件是子模板#}
+                {% for newfruit in newfruits %} {# 显示新增的水果 #}
+                    <tr>
+                        <td class="icon">
+                            {# 设置图标为圆形 #}
+                            <div class="td_div_icon">
+                                <img src="{{ newfruit.get_fruit_icon() }}"/>
+                            </div>
+                        </td>
+                        <td>
+                            {{ newfruit.get_fruit_name() }}
+                        </td>
+                        <td>
+                            ¥{{ newfruit.get_fruit_unitprice() }}/kg
+                        </td>
+                        <td>
+                            {% if newfruit.get_fruit_netweight()>0 %}
+                                {{ newfruit.get_fruit_netweight() }}kg
+                            {% else %}
+                                {{ -newfruit.get_fruit_netweight() }}kg
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form>
+                                用于修正的下拉框
+                                <select id="{{ newfruit.name }}" onchange="javascript: onChange(this);">
+                                    {% for fruit in fruitnames %} {# fruits 表示水果种类的列表#}
+                                        <option value="{{ fruit }}" {% if fruit == newfruit.get_fruit_name() %}
+                                                selected="selected" {% endif %}>
+                                            {{ fruit }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    {% if fruit_list is not none and fruit_list | length > 0 %}
+        <div class="container">
+            <ul class="nav navbar-default navbar-nav navbar-right">
+                <li><a>{{ _('%(count)d pieces in total',count=fruit_list | length) }}</a></li>
+            </ul>
+        </div>
+    {% else %}
+        <div>
+            <h2 class="warning">{{ _('There is nothing in the shopping cart.') }}</h2>
+            <p class="return-home-info" id="p1"/>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -72,18 +72,18 @@
             return_home_time = window.setInterval(return_home_task, 1000);
         })
 
-        function send(content) {
-            socket.emit('update_cart', content);
+        function send(name, content) {
+            socket.emit(name, content);
         }
 
         function onChange(select) {
             changeData = {"name": select.id, "changeName": select.value};
-            send(changeData);
+            send('update_cart', changeData);
         }
 
         function get() {
             socket.on('update_cart', function (data) {
-                /*alert(data);*/
+                {#alert(data);#}
                 window.location.reload();
                 scrollToEnd();
             })
@@ -152,5 +152,10 @@
                 }
             }
         }
+
+        function report_error() {
+            send('modify', '1');
+        }
+
     </script>
 {% endblock %}

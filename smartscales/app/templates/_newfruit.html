@@ -27,17 +27,21 @@
 
         </td>
         <td>
-            <form>
-                {#用于修正的下拉框#}
-                <select id="{{ newfruit.name }}" onchange="onChange(this)">
-                    {% for fruit in fruitnames %} {# fruits 表示水果种类的列表 #}
-                        <option value="{{ fruit }}" {% if fruit == newfruit.get_fruit_name() %}
-                                selected="selected" {% endif %}>
-                            {{ fruit }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </form>
+
+            <button type="button" class="btn btn-default">
+                <a onclick="javascrtpt:report_error();">Report an error</a>
+            </button>
+            {#            <form>#}
+            {#用于修正的下拉框#}
+            {#                <select id="{{ newfruit.name }}" onchange="onChange(this)">#}
+            {#                    {% for fruit in fruitnames %} {# fruits 表示水果种类的列表 #}
+            {#                        <option value="{{ fruit }}" {% if fruit == newfruit.get_fruit_name() %}#}
+            {#                                selected="selected" {% endif %}>#}
+            {#                            {{ fruit }}#}
+            {#                        </option>#}
+            {#                    {% endfor %}#}
+            {#                </select>#}
+            {#            </form>#}
         </td>
     </tr>
 {% endfor %}

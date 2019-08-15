@@ -24,7 +24,7 @@ def update_cart(content):
     # 发送消息到前端 参数一表示这个通道的名字，参数二是发送的内容，参数broadcast表示是否广播是所有的前端都能收到信息
     # emit('new_message', {'message_html': render_template('message.html', message=message)}, broadcast=True)
     # emit('update_cart', content, broadcast=True)
-    emit('update_cart', "1", broadcast=False)
+    emit('update_cart', "1", broadcast=True)
 
 
 @socketio.on("settlement")
@@ -46,3 +46,10 @@ def report(content):
 def update_cart():
     """刷新购物车页面"""
     report("1")
+
+
+@socketio.on("modify")
+def modify(content):  # 用于纠错的 websocket
+    print(content)
+    if content == "1":  # 收到1就去通知 后台管理 页面跳转到 modify 页面 或者刷新 modify 页面
+        emit('modify', 1, broadcast=True)

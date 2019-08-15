@@ -9,8 +9,8 @@ def upload_image():
 
     # filepath='H:/pythonworkspace/fruitnew/validation/Banana/1_100.jpg'
     # filepath = 'H:/pythonworkspace/Serverstore/new/image_20190702_210230AA_006.jpg'
-    # filepath = 'H:/pythonworkspace/Serverstore/test1/20190702210230AB/image_20190702_210230AA_003.jpg'
-    filepath = 'D:/Myproject/Python/Flask/smartscales/app/algorithm/data/test1/20190702210230AB/image_20190702_210230AA_003.jpg'
+    # filepath = 'H:/pythonworkspace/Serverstore/test1/20190702210230AB/image_20190702_210230AA_002.jpg'
+    filepath = 'D:/Myproject/Python/Flask/smartscales/app/algorithm/data/test1/20190702210230AB/image_20190702_210230AA_002.jpg'
     split_path = filepath.split('/')
     filename = split_path[-1]
     print(filename)
@@ -30,7 +30,7 @@ def upload_image_with_args(filepath, w):
 
     # filepath='H:/pythonworkspace/fruitnew/validation/Banana/1_100.jpg'
     # filepath = 'H:/pythonworkspace/Serverstore/new/image_20190702_210230AA_006.jpg'
-    # filepath = 'H:/pythonworkspace/Serverstore/test1/20190702210230AB/image_20190702_210230AA_003.jpg'
+    # filepath = 'H:/pythonworkspace/Serverstore/test1/20190702210230AB/image_20190702_210230AA_002.jpg'
     split_path = filepath.split('/')
     filename = split_path[-1]
     print(filename)
@@ -79,7 +79,7 @@ def test():
 def test2():
     path = 'D:/Myproject/Python/Flask/smartscales/app/algorithm/data/test1/20190702210230AA/image_20190702_210230AA_'
     weight = [1.5, 1.5, 1.5, -1.5]
-    for i in range(4):
+    for i in range(1):
         time_1 = datetime.datetime.now()
         upload_image_with_args(path + '%s' % str(i + 1).zfill(3) + '.jpg', weight[i])
         time_2 = datetime.datetime.now()

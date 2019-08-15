@@ -10,12 +10,13 @@
 import datetime
 import os
 from PIL import Image
-from flask import render_template, request, flash
+from flask import render_template, request, flash, url_for, redirect
 from flask_babel import _
 from flask_babel import lazy_gettext as _l  # 这个新函数将文本包装在一个特殊的对象中，这个对象会在稍后的字符串使用时触发翻译。
 from app import al, yolo, graph
 from app.algorithm import dataprocessing
 from app.algorithm.image_detect_func import get_difference
+from app.forms import LoginForm
 from app.fruit import Fruit
 from app import app, socketioutils, fruit_name_dic
 
@@ -184,6 +185,7 @@ def get_frame():
             dataprocessing.show_list()
             print(dataprocessing.getshoplist())
             print('current_list:', dataprocessing.current_list)
+        result_image, result_res = yolo.detect_image(image_C)
         print('make_web_list', dataprocessing.make_web_list())
         print('make_web_new', dataprocessing.make_web_new())
         socketioutils.report(1)
@@ -214,3 +216,74 @@ def clear_fruits():
     dataprocessing.clear_shoplist()
     socketioutils.report(1)
     return 'clear success'
+
+
+# 涉及到 表单 的视图都要使用 POST方式
+@app.route('/login', methods=['GET', 'POST'])
+def login():  # 用户登录
+    form = LoginForm(login_type='Customer')
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        # login_type = form.login_type.data
+        print(username)
+        print(password)
+        # print(login_type)
+        if username != 'root' or password != '123456':
+            flash(_('Invalid username or password'))  # 会闪现一条消息到登录界面
+            return redirect(url_for('login'))
+        return redirect(url_for('manage'))
+    return render_template('login.html', title=_('Backstage Management Sign In'), form=form)  # 此处不能使用 url_for()函数
+
+
+@app.route('/manage', methods=['GET', 'POST'])
+def manage():
+    """后台登录的首页"""
+
+    # error_num 表示错误的数量
+    return render_template('manage.html', title=_('manage'), error_num=0)
+
+
+@app.route('/bills', methods=['GET', 'POST'])
+def bills():
+    """账单"""
+
+    # error_num 表示错误的数量
+    return render_template('bills.html', title=_('manage'), error_num=0)
+
+
+@app.route('/modify', methods=['GET', 'POST'])
+def modify():
+    """后台纠错"""
+    cart_list, total = dataprocessing.make_web_list()
+    new_cart_list = dataprocessing.make_web_new()
+
+    fruit_list = []
+    if len(cart_list) > 0:
+        for i in range(len(cart_list)):
+            fruit = Fruit(cart_list[i][0], cart_list[i][1], cart_list[i][2])
+            fruit_list.append(fruit)
+    new_fruit_list = []
+    if new_cart_list is not None and len(new_cart_list) > 0:
+        for i in range(len(new_cart_list)):
+            fruit = Fruit(new_cart_list[i][0], new_cart_list[i][1], new_cart_list[i][2])
+            new_fruit_list.append(fruit)
+    if len(new_cart_list) >= 2:
+        if new_cart_list[0][2] > 0:
+            flash(_(
+                "You may have placed a variety of items at once. Sorry, you can't carefully identify the weight of each item. Please take out the various items you just placed and put them in order. If you confirm that only one item is placed, please Make corrections."))
+        else:
+            flash(_(
+                "You may have taken a variety of items at once, and I am sorry that you cannot carefully identify the weight of each item. If you confirm that only one item has been removed, please correct it."))
+    elif len(new_cart_list) == 1:
+        if new_cart_list[0][2] > 0 and new_cart_list[0][0] != '1000':
+            fruit_name = new_cart_list[0][0]
+            flash(_l("You added new %(fruit_name)s", fruit_name=fruit_name_dic[fruit_name]))
+        if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
+            fruit_name = new_cart_list[0][0]
+            flash(_l("You took the %(fruit_name)s away", fruit_name=fruit_name_dic[fruit_name]))
+    return render_template('modify.html', title=_('manage'),
+                           error_num=0,
+                           fruit_list=fruit_list,  # 水果列表
+                           newfruits=new_fruit_list,  # 新增水果的列表
+                           fruitnames=fruit_name_dic.values(), )

@@ -17,7 +17,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:123456@127.0.0.1:3306/fruit_supermarket'
 
     # 邮件配置
-    MAIL_SEND = True  # 是否发送邮件
+    MAIL_SEND = False  # 是否发送邮件
     MAIL_SERVER = 'smtp.qq.com'  # 服务器
     MAIL_USE_SSL = False
     MAIL_USE_TLS = True  # TLS 发送日志使用这种方式使用Message发送邮件也可以使用这种方式
