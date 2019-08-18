@@ -25,6 +25,7 @@ MODEL_DATA_PATH = join(ALGORITHM_PATH, 'model_data')  # 模型数据路径
 TEST_PATH = join(DATA_PATH, 'test1')
 IMAGES_PATH = join(DATA_PATH, 'images')
 CROPPED_PATH = join(DATA_PATH, 'cropped')
+RESULT_PATH = join(DATA_PATH, 'result')
 # BACK_GROUND = join(DATA_PATH, 'background/background1.jpg')
 BACK_GROUND = join(DATA_PATH, 'background/background1.jpg')
 '''背景'''
@@ -58,8 +59,19 @@ def algorithm_init():
         "model_image_size": (416, 416),
         "gpu_num": 0,
     }
+    final_yolo_test_args = {
+        "model_path": join(MODEL_WEIGHT_PATH, 'fruit_yolo_ckpt.h5'),
+        "anchors_path": join(MODEL_DATA_PATH, 'yolo_anchors.txt'),
+        "classes_path": join(MODEL_DATA_PATH, 'final_fruit_classes.txt'),
+        "score": 0.3,
+        "iou": 0.45,
+        "model_image_size": (416, 416),
+        "gpu_num": 0,
+    }
+
+
     graph = tf.get_default_graph()  # 功能：获取当前默认计算图。
-    yolo = YOLO(**new_yolo_test_args)  # 初始化算法
+    yolo = YOLO(**final_yolo_test_args)  # 初始化算法
     return yolo, graph
     return yolo, graph
 
