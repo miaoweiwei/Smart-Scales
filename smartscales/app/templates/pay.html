@@ -21,6 +21,9 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a>{{ _('%(count)d pieces in total',count=fruit_list.__len__()) }}</a></li>
                 <li><a>{{ _('Total %(count)s yuan',count=total) }}</a></li>
+                <li>
+                    <button type="button" class="btn btn-default">{{ _('Print details') }}</button>
+                </li>
             </ul>
         </div>
     {% else %}
@@ -81,5 +84,7 @@
         }
 
         makeCode(); /*使页面加载完成就显示二维码*/
+
+
     </script>
 {% endblock %}

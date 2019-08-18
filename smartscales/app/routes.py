@@ -10,7 +10,7 @@
 import datetime
 import os
 from PIL import Image
-from flask import render_template, request, flash, url_for, redirect
+from flask import render_template, request, flash, url_for, redirect, jsonify
 from flask_babel import _
 from flask_babel import lazy_gettext as _l  # 这个新函数将文本包装在一个特殊的对象中，这个对象会在稍后的字符串使用时触发翻译。
 from app import al, yolo, graph
@@ -218,6 +218,13 @@ def clear_fruits():
     return 'clear success'
 
 
+@app.route('/get_print', methods=['GET'])
+def get_print(id):
+    """获取要打印的内容"""
+    data = []
+    return jsonify(data)
+
+
 # 涉及到 表单 的视图都要使用 POST方式
 @app.route('/login', methods=['GET', 'POST'])
 def login():  # 用户登录
@@ -282,8 +289,10 @@ def modify():
         if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
             flash(_l("You took the %(fruit_name)s away", fruit_name=fruit_name_dic[fruit_name]))
+
     return render_template('modify.html', title=_('manage'),
                            error_num=0,
+                           images=None,
                            fruit_list=fruit_list,  # 水果列表
                            newfruits=new_fruit_list,  # 新增水果的列表
                            fruitnames=fruit_name_dic.values(), )

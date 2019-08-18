@@ -1,5 +1,9 @@
 {% extends "server_base.html" %}
 {% block app_content %}
+
+   {% for img in images %}
+   {% endfor %}
+
     <div id="cart_page" class="container">
         {% if fruit_list is not none and fruit_list | length > 0 %}
             <h3 class="table_title">{{ _('Shopping cart') }}</h3>
