@@ -21,7 +21,7 @@ from app.fruit import Fruit
 from app import app, socketioutils, fruit_name_dic
 
 mydir = al.TEST_PATH
-
+result_path = al.RESULT_PATH
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/index", methods=['GET', 'POST'])
@@ -144,6 +144,15 @@ def get_frame():
         print('B_path:', cropped_B_path)
 
         with graph.as_default():
+            result_image, result_res = yolo.detect_image(image_C)
+            print(type(result_image), result_res)
+            print('path:', os.path.join(al.RESULT_PATH, old_file_name))
+            result_dir_path = os.path.join(al.RESULT_PATH, dirname)
+            result_folder = os.path.exists(result_dir_path)
+            if not result_folder:
+                os.makedirs(result_dir_path)
+            result_image.save(os.path.join(result_dir_path, old_file_name))
+
             if weight > 0.05:
                 if image_count == "001":
                     r_image, result = yolo.detect_image(image_C)
@@ -185,7 +194,7 @@ def get_frame():
             dataprocessing.show_list()
             print(dataprocessing.getshoplist())
             print('current_list:', dataprocessing.current_list)
-        result_image, result_res = yolo.detect_image(image_C)
+        # result_image, result_res = yolo.detect_image(image_C)
         print('make_web_list', dataprocessing.make_web_list())
         print('make_web_new', dataprocessing.make_web_new())
         socketioutils.report(1)
