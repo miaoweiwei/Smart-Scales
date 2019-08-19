@@ -7,7 +7,9 @@
 @Software: PyCharm
 @Desc    : 路由视图
 """
+import base64
 import datetime
+import io
 import os
 from PIL import Image
 from flask import render_template, request, flash, url_for, redirect, jsonify
@@ -22,6 +24,9 @@ from app import app, socketioutils, fruit_name_dic
 
 mydir = al.TEST_PATH
 result_path = al.RESULT_PATH
+
+img_order_path = None
+
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/index", methods=['GET', 'POST'])
@@ -109,6 +114,7 @@ def settlement():
 # 上传图片进行识别
 @app.route("/upload", methods=['POST'])
 def get_frame():
+    global img_order_path
     starttime = datetime.datetime.now()
     upload_file = request.files['file']
     weight = request.form.get('weight')
@@ -151,6 +157,7 @@ def get_frame():
             result_folder = os.path.exists(result_dir_path)
             if not result_folder:
                 os.makedirs(result_dir_path)
+            img_order_path = result_dir_path
             result_image.save(os.path.join(result_dir_path, old_file_name))
 
             if weight > 0.05:
@@ -222,16 +229,33 @@ def change_fruit():
 
 @app.route("/clear", methods=["POST"])
 def clear_fruits():
+    global img_order_path
     dataprocessing.clear_shoplist()
+    img_order_path = None
     socketioutils.report(1)
     return 'clear success'
 
 
 @app.route('/get_print', methods=['GET'])
-def get_print(id):
+def get_print():
     """获取要打印的内容"""
-    data = []
-    return jsonify(data)
+    cart_list, total = dataprocessing.make_web_list()
+
+    fruit_list = []
+    if len(cart_list) > 0:
+        for i in range(len(cart_list)):
+            fruit = Fruit(cart_list[i][0], cart_list[i][1], cart_list[i][2])
+            fruit_list.append(fruit)
+
+    fruit_dic_list = [{"name": fruit.name,
+                       "unitprice": fruit.unitprice,
+                       "netweight": fruit.netweight,
+                       "subtotal": fruit.get_subtotal(),
+                       "describe": fruit.describe} for fruit in fruit_list]
+    data = {"fruits": fruit_dic_list, "total": total}
+    data = jsonify(data)
+    print(data)
+    return data
 
 
 # 涉及到 表单 的视图都要使用 POST方式
@@ -271,6 +295,7 @@ def bills():
 @app.route('/modify', methods=['GET', 'POST'])
 def modify():
     """后台纠错"""
+    global img_order_path
     cart_list, total = dataprocessing.make_web_list()
     new_cart_list = dataprocessing.make_web_new()
 
@@ -294,14 +319,33 @@ def modify():
     elif len(new_cart_list) == 1:
         if new_cart_list[0][2] > 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
-            flash(_l("You added new %(fruit_name)s", fruit_name=fruit_name_dic[fruit_name]))
+            flash(_l("customer added new %(fruit_name)s", fruit_name=fruit_name_dic[fruit_name]))
         if new_cart_list[0][2] < 0 and new_cart_list[0][0] != '1000':
             fruit_name = new_cart_list[0][0]
-            flash(_l("You took the %(fruit_name)s away", fruit_name=fruit_name_dic[fruit_name]))
+            flash(_l("customer took the %(fruit_name)s away", fruit_name=fruit_name_dic[fruit_name]))
+
+    def get_base64(img_path):  # 把图片转成base64
+        figfile = io.BytesIO(open(img_path, 'rb').read())
+        img = base64.b64encode(figfile.getvalue()).decode('ascii')
+        return img
+
+    images = []
+    # path_list = list(os.listdir(result_path))
+    # if len(path_list) > 0:
+    #     path_list.sort(reverse=True)  # 按逆序排列，第一个就是最大的,就是最近的那个订单
+    #     temp_path = None
+    #     for img_path in path_list:
+    #         temp_path = os.path.join(result_path, img_path)
+    #         if os.path.isdir(temp_path):
+    #             break
+    #     images = [get_base64(os.path.join(temp_path, img_path)) for img_path in os.listdir(temp_path)]
+
+    if img_order_path is not None:
+        images = [get_base64(os.path.join(img_order_path, img_path)) for img_path in os.listdir(img_order_path)]
 
     return render_template('modify.html', title=_('manage'),
                            error_num=0,
-                           images=None,
+                           images=images,
                            fruit_list=fruit_list,  # 水果列表
                            newfruits=new_fruit_list,  # 新增水果的列表
                            fruitnames=fruit_name_dic.values(), )

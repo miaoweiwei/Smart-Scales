@@ -69,7 +69,6 @@ def algorithm_init():
         "gpu_num": 0,
     }
 
-
     graph = tf.get_default_graph()  # 功能：获取当前默认计算图。
     yolo = YOLO(**final_yolo_test_args)  # 初始化算法
     return yolo, graph

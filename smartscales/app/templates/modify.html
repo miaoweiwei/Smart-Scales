@@ -1,9 +1,16 @@
 {% extends "server_base.html" %}
 {% block app_content %}
 
-   {% for img in images %}
-   {% endfor %}
+    <div id="cart_page" class="container">
+        {% if images %}
+            {% for img in images %}
+                <img src="data:;base64,{{ img }}" width="235" height="235" class="img-rounded">
+                {#            <img src="data:;base64,{{ img }}" width="400" height="400" class="img-circle">#}
+                {#            <img src="data:;base64,{{ img }}" width="400" height="400" class="img-thumbnail">#}
+            {% endfor %}
+        {% endif %}
 
+    </div>
     <div id="cart_page" class="container">
         {% if fruit_list is not none and fruit_list | length > 0 %}
             <h3 class="table_title">{{ _('Shopping cart') }}</h3>

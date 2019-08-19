@@ -22,7 +22,8 @@
                 <li><a>{{ _('%(count)d pieces in total',count=fruit_list.__len__()) }}</a></li>
                 <li><a>{{ _('Total %(count)s yuan',count=total) }}</a></li>
                 <li>
-                    <button type="button" class="btn btn-default">{{ _('Print details') }}</button>
+                    <button type="button" class="btn btn-default"
+                            onclick="print_order()">{{ _('Print details') }}</button>
                 </li>
             </ul>
         </div>
@@ -85,6 +86,9 @@
 
         makeCode(); /*使页面加载完成就显示二维码*/
 
-
+        function print_order() {
+            alert("print order");
+            exec1('D:\\Program Files\\Python\\Python3\\python.exe D:\\Myproject\\Python\\Flask\\Smart-Scales\\smartscales\\app\\static\\test.py');
+        }
     </script>
 {% endblock %}

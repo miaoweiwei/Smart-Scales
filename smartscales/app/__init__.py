@@ -34,9 +34,8 @@ bootstrap = Bootstrap(app)  # CSS框架Bootstrap初始化
 moment = Moment(app)  # 日期和时间转换成插件格式化
 babel = Babel(app)  # Flask-Babel正是用于简化翻译工作的
 socketio = SocketIO(app)
-fruit_name_dic = {"apple": "苹果", "banana": "香蕉", "cucumber": "黄瓜", "eggplant": "茄子", "kiwifruit": "奇异果",
-                  "maize": "玉米", "mushroom": "蘑菇", "orange": "橙子", "pineapple": "菠萝", "pitaya": "火龙果",
-                  "1000": "未知的水果"}
+fruit_name_dic = {"apple": "苹果", "banana": "香蕉", "kiwifruit": "奇异果", "orange": "橙子", "pineapple": "菠萝", "pitaya": "火龙果",
+                  "hamimelon": "哈密瓜", "watermelon": "西瓜", "1000": "未知的水果"}
 
 # 算法初始化
 dataprocessing.init_repository()  # 初始化数据库
