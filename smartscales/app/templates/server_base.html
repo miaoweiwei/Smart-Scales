@@ -97,9 +97,9 @@
 
         function get() { {# 收到纠错的信息 #}
             socket.on('modify', function (data) {
+                alert("modify" + data);
                 set_message_count(data);
-                {#window.location.reload();#}
-                {#scrollToEnd();#}
+
             });
             socket.on('update_cart', function (data) {
                 window.location.reload();

@@ -50,6 +50,6 @@ def update_cart():
 
 @socketio.on("modify")
 def modify(content):  # 用于纠错的 websocket
-    print(content)
+    print("modify:{0}".format(content))
     if content == "1":  # 收到1就去通知 后台管理 页面跳转到 modify 页面 或者刷新 modify 页面
         emit('modify', 1, broadcast=True)
