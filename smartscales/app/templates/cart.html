@@ -101,7 +101,6 @@
                     url: url,
                     data: {},
                     success: function (data) {
-                        console.log(data);
                     },
                     fail: function () {
                         alert("请求失败！");
@@ -137,13 +136,11 @@
 
         function return_home_task() {
             var page = document.getElementById("cart_page");
-            console.log(page.innerText);
             {#if (page == null) {#}
             if (page.innerText == "") {
                 var return_home_p = document.getElementById("p1");
                 var temp = "{{ _('Return to the home page after {time} seconds') }}";
                 temp = temp.format({time: sumtime});
-                console.log(temp);
                 return_home_p.innerHTML = temp;
                 sumtime -= 1;
                 if (sumtime < 0) {
@@ -154,6 +151,7 @@
         }
 
         function report_error() {
+            console.log("modify");
             send('modify', '1');
         }
 
