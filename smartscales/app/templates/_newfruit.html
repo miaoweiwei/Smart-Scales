@@ -27,8 +27,8 @@
 
         </td>
         <td>
-            <button type="button" class="btn btn-default">
-                <a onclick="report_error();">{{ _("Report error") }}</a>
+            <button id="btn_{{ newfruit.name }}" type="button" class="btn btn-default">
+                <a onclick="report_error(this);">{{ _("Report error") }}</a>
             </button>
             {#            <form>#}
             {#用于修正的下拉框#}

@@ -150,7 +150,9 @@
             }
         }
 
-        function report_error() {
+        function report_error(docid) {
+            console.log("report_error");
+            console.log(docid);
             console.log("modify");
             send('modify', '1');
         }
