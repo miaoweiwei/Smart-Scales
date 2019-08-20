@@ -9,7 +9,7 @@ def upload_image():
     # filepath='H:/pythonworkspace/fruitnew/validation/Banana/1_100.jpg'
     # filepath = 'H:/pythonworkspace/Serverstore/new/image_20190702_210230AA_006.jpg'
     # filepath = 'H:/pythonworkspace/Serverstore/test1/20190702210230AB/image_20190702_210230AA_002.jpg'
-    filepath = 'D:/Myproject/Python/Flask/smartscales/app/algorithm/data/test1/20190702210230AB/image_20190702_210230AA_002.jpg'
+    filepath = './data/test1/20190702210230AB/image_20190702_210230AA_002.jpg'
     split_path = filepath.split('/')
     filename = split_path[-1]
     print(filename)
@@ -46,7 +46,7 @@ def upload_image_with_args(filepath, w):
 
 def upload_background():
     url = "http://127.0.0.1:5000/getbackground"
-    filepath = 'D:/Myproject/Python/Flask/smartscales/app/algorithm/data/test1/20190702210230AB/background_20190702_210230AA_000.jpg'
+    filepath = './data/test1/20190702210230AB/background_20190702_210230AA_000.jpg'
     # filename = 'background_image.jpg'
     # filename = os.path.split(filepath)
     split_path = filepath.split('/')
@@ -65,7 +65,7 @@ def claer_shoplist():
 
 
 def test():
-    path = 'D:/Myproject/Python/Flask/Smart-Scales/smartscales/app/algorithm/data/test1/20190708110708AA/image_20190708_110708AA_'
+    path = './data/test1/20190708110708AA/image_20190708_110708AA_'
     weight = [1.5, 1.5, 1.5, 1.5, -1.5, -3, -1.5]
     for i in range(7):
         time_1 = datetime.datetime.now()
@@ -76,7 +76,7 @@ def test():
 
 
 def test2():
-    path = 'D:/Myproject/Python/Flask/smartscales/app/algorithm/data/test1/20190702210230AA/image_20190702_210230AA_'
+    path = './data/test1/20190702210230AA/image_20190702_210230AA_'
     weight = [1.5, 1.5, 1.5, -1.5]
     for i in range(1):
         time_1 = datetime.datetime.now()

@@ -12,6 +12,7 @@ current_list = []
 def init_repository():
     # db = pymysql.connect("localhost", "root", "1234", "fruitshop")
     db = pymysql.connect("localhost", "root", "123456", "fruitshop")
+    # db = pymysql.connect("localhost", "root", "ZHBuer960815", "fruitshop")
     cursor = db.cursor()
     sql = "select * from fruit_table"
     try:
