@@ -30,8 +30,9 @@ from app import algorithm
 app = Flask(__name__)
 app.config.from_object(Config)  # 通知Flask读取并使用配置文件
 CORS(app, resources=r'/*')  # 解决跨域访问的问题，# r'/*' 是通配符，让本服务器所有的URL 都允许跨域请求
-bootstrap = Bootstrap(app)  # CSS框架Bootstrap初始化
 moment = Moment(app)  # 日期和时间转换成插件格式化
+bootstrap = Bootstrap(app)  # CSS框架Bootstrap初始化
+
 babel = Babel(app)  # Flask-Babel正是用于简化翻译工作的
 socketio = SocketIO(app)
 fruit_name_dic = {"apple": "苹果", "banana": "香蕉", "kiwifruit": "奇异果", "orange": "橙子", "pineapple": "菠萝", "pitaya": "火龙果",

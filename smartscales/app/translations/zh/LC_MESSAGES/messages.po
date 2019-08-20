@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-19 21:40+0800\n"
+"POT-Creation-Date: 2019-08-20 14:09+0800\n"
 "PO-Revision-Date: 2019-07-03 10:11+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -34,7 +34,7 @@ msgstr "记住账号"
 msgid "Sign In"
 msgstr "登录"
 
-#: app/routes.py:57 app/routes.py:292
+#: app/routes.py:59 app/routes.py:314
 msgid ""
 "You may have placed a variety of items at once. Sorry, you can't "
 "carefully identify the weight of each item. Please take out the various "
@@ -42,57 +42,57 @@ msgid ""
 " item is placed, please Make corrections."
 msgstr "您可能一次性放入了多个商品，很抱歉无法仔细识别出每件商品的重量，请将刚刚放入的多种商品取出，依次放入，如果您确认只放入了一种商品，请进行纠正。"
 
-#: app/routes.py:60 app/routes.py:295
+#: app/routes.py:62 app/routes.py:317
 msgid ""
 "You may have taken a variety of items at once, and I am sorry that you "
 "cannot carefully identify the weight of each item. If you confirm that "
 "only one item has been removed, please correct it."
 msgstr "您或许一次性取走了多个商品，很抱歉无法仔细识别出每件商品的重量，如果您确认只取走了一种商品，请进行纠正。"
 
-#: app/routes.py:65
+#: app/routes.py:67
 #, python-format
 msgid "You added new %(fruit_name)s"
 msgstr "您新加入了%(fruit_name)s"
 
-#: app/routes.py:68
+#: app/routes.py:70
 #, python-format
 msgid "You took the %(fruit_name)s away"
 msgstr "您拿走了%(fruit_name)s"
 
-#: app/routes.py:69 app/templates/base.html:50
+#: app/routes.py:71 app/templates/base.html:50
 msgid "Shopping Cart"
 msgstr "购物车"
 
-#: app/routes.py:85 app/templates/settlement.html:41
+#: app/routes.py:87 app/templates/settlement.html:41
 msgid "Payment"
 msgstr "付款"
 
-#: app/routes.py:97
+#: app/routes.py:99
 msgid "The fruit I bought"
 msgstr "我买到的商品"
 
-#: app/routes.py:109
+#: app/routes.py:111
 msgid "Settlement"
 msgstr "结算"
 
-#: app/routes.py:252
+#: app/routes.py:273
 msgid "Invalid username or password"
 msgstr "用户名或密码无效"
 
-#: app/routes.py:255 app/templates/login.html:28
+#: app/routes.py:276 app/templates/login.html:28
 msgid "Backstage Management Sign In"
 msgstr "后台管理系统登录"
 
-#: app/routes.py:263 app/routes.py:271 app/routes.py:322
+#: app/routes.py:284 app/routes.py:292 app/routes.py:346
 msgid "manage"
 msgstr "后台管理"
 
-#: app/routes.py:300
+#: app/routes.py:322
 #, python-format
 msgid "customer added new %(fruit_name)s"
 msgstr "顾客新添加了%(fruit_name)s"
 
-#: app/routes.py:303
+#: app/routes.py:325
 #, python-format
 msgid "customer took the %(fruit_name)s away"
 msgstr "顾客拿走了%(fruit_name)s"
@@ -113,6 +113,10 @@ msgstr "发生意外错误"
 msgid "The administrator has been notified. Sorry for the inconvenience!"
 msgstr "管理员已收到通知。 抱歉给你带来不便！"
 
+#: app/templates/_newfruit.html:31
+msgid "Report error"
+msgstr "报错"
+
 #: app/templates/base.html:20 app/templates/base.html:22
 #: app/templates/base.html:42 app/templates/index.html:10
 #: app/templates/login.html:10 app/templates/login.html:12
@@ -120,7 +124,7 @@ msgstr "管理员已收到通知。 抱歉给你带来不便！"
 #: app/templates/server_base.html:41 app/templates/settlement.html:15
 #: app/templates/settlement.html:17
 msgid "Fruit Supermarket"
-msgstr "果蔬超市"
+msgstr "水果超市"
 
 #: app/templates/base.html:32 app/templates/server_base.html:31
 msgid "Toggle navigation"
@@ -251,3 +255,4 @@ msgstr "您的订单"
 #: app/templates/settlement.html:44
 msgid "You have no unpaid orders"
 msgstr "您没有需要支付的订单"
+
