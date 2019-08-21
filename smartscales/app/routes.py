@@ -351,7 +351,6 @@ def modify():
 
     if img_order_path is not None:
         images = [get_base64(os.path.join(img_order_path, img_path)) for img_path in os.listdir(img_order_path)]
-
     return render_template('modify.html', title=_('manage'),
                            error_num=0,
                            images=images,
