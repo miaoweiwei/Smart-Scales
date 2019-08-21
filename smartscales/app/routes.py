@@ -236,25 +236,34 @@ def clear_fruits():
     return 'clear success'
 
 
-@app.route('/get_print', methods=['GET'])
-def get_print():
+printed = False
+
+
+@app.route('/print_order', methods=['GET', "POST"])
+def print_order():
     """获取要打印的内容"""
-    cart_list, total = dataprocessing.make_web_list()
+    global printed
+    cmd = request.values['cmd'] if request.values.has_key('cmd') else None
+    if cmd is not None and cmd == 'print':
+        printed = True
+        return "success"
+    data = None
+    if printed:
+        printed = False
+        cart_list, total = dataprocessing.make_web_list()
+        fruit_list = []
+        if len(cart_list) > 0:
+            for i in range(len(cart_list)):
+                fruit = Fruit(cart_list[i][0], cart_list[i][1], cart_list[i][2])
+                fruit_list.append(fruit)
 
-    fruit_list = []
-    if len(cart_list) > 0:
-        for i in range(len(cart_list)):
-            fruit = Fruit(cart_list[i][0], cart_list[i][1], cart_list[i][2])
-            fruit_list.append(fruit)
-
-    fruit_dic_list = [{"name": fruit.name,
-                       "unitprice": fruit.unitprice,
-                       "netweight": fruit.netweight,
-                       "subtotal": fruit.get_subtotal(),
-                       "describe": fruit.describe} for fruit in fruit_list]
-    data = {"fruits": fruit_dic_list, "total": total}
+        fruit_dic_list = [{"name": fruit.name,
+                           "unitprice": fruit.unitprice,
+                           "netweight": fruit.netweight,
+                           "subtotal": fruit.get_subtotal(),
+                           "describe": fruit.describe} for fruit in fruit_list]
+        data = {"fruits": fruit_dic_list, "total": total}
     data = jsonify(data)
-    print(data)
     return data
 
 

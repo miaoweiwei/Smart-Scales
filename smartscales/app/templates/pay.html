@@ -87,7 +87,10 @@
         makeCode(); /*使页面加载完成就显示二维码*/
 
         function print_order() {
-            alert("print order");
+            console.log("print order");
+            $.ajax('{{ url_for("print_order") }}?cmd="print order"').done(function (data) {
+                console.log(data);
+            });
         }
     </script>
 {% endblock %}
