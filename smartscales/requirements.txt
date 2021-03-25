@@ -54,7 +54,7 @@ python-socketio==4.2.0
 pytz==2019.1
 PyWavelets==1.0.3
 pywin32-ctypes==0.2.0
-PyYAML==5.1
+PyYAML==5.4
 requests==2.22.0
 rsa==3.4.2
 ruamel.yaml==0.15.97
